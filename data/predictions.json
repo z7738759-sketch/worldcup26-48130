@@ -155,16 +155,16 @@
     "kickoff": "2026-06-14T17:00:00Z",
     "predictionA": "德国 4-0",
     "predictionB": "德国 5-1",
-    "actualScore": null,
-    "directionCorrect": null,
-    "exactHit": null,
-    "totalGoalsDirectionCorrect": null,
+    "actualScore": "7-1",
+    "directionCorrect": true,
+    "exactHit": false,
+    "totalGoalsDirectionCorrect": false,
     "bettingValues": [
       {
         "stars": 2,
         "name": "Over 3.5进球",
         "odds": "-170",
-        "hit": null
+        "hit": true
       }
     ],
     "mRulesTriggered": [
@@ -178,7 +178,7 @@
       "✅ 库拉索：首届世界杯，全员可用，历史首秀斗志高昂",
       "⚽ v11模型：首届参赛队lambdaAway底线1.0（cap之后应用），库拉索进球概率≈37%"
     ],
-    "notes": "v11模型：ELO差364，cap后λHome=4.66，首届参赛底线λAway=1.0（Curacao得分期望=1球）。德国进攻强劲，总进球5-6球范围。预测B纳入库拉索必然进球+德国高效进球场景。",
+    "notes": "终场7-1！德国大胜8球。方向正确，但进球数严重低估（预测最高6球，实际8球）。总进球cap=5.0在极端大差距对决中仍不足。Over 3.5✅命中。库拉索1球符合λAway=1.0底线预测。",
     "predictionC": "德国 3-1",
     "probabilityA": 33,
     "probabilityB": 29,

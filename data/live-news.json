@@ -4,10 +4,10 @@
     "team": "德国",
     "timestamp": "2026-06-14T21:00:00+08:00",
     "source": "ESPN / FIFA.com 多源核实",
-    "title": "德国4-1库拉索 · 库拉索历史首球Comenencia(21')！",
-    "content": "德国4-1击败库拉索。进球：Nmecha(6')、Comenencia(21'库拉索历史首球!)、Schlotterbeck(38')、Havertz点球(45+5')、Musiala(47')。模型升级v11：首届参赛队λAway底线1.0（cap之后应用），库拉索进球期望=1球，与实际完全吻合。",
+    "title": "德国7-1库拉索终场 · 库拉索历史首球Comenencia(21')！",
+    "content": "德国以7-1大胜库拉索，创本届世界杯最大分差。进球：Nmecha(6')、Comenencia(21'库拉索历史首球)、Schlotterbeck(38')、Havertz点球(45+5')、Musiala(47')、Wirtz(52')、Havertz(64')、Musiala(82')。德国下半场连入3球。模型v11：λAway=1.0底线准确预测库拉索进球，但λHome上限cap=5.0严重低估德国（实际7球）。",
     "impactLevel": "high",
-    "impactNote": "v11核心修复：v10的floor(0.55)在cap之前，cap把0.605压回0.495（低于floor），导致预测漏掉'X-1'场景。v11把floor(1.0)移至cap之后，top3变为'4-0/4-1/5-0'，覆盖实际比分。",
+    "impactNote": "模型教训：总进球cap=5.0在ELO差364的极端对决中不足——德国实际λHome≈5-7。下一步考虑对ELO差>350的比赛放开cap上限至7.0或移除cap。Over 3.5✅命中，库拉索进球✅命中，但精确比分严重低估。",
     "relatedMatches": [1008]
   },
   {

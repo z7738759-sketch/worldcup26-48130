@@ -453,10 +453,14 @@ export function computeModelOutput(
     lambdaHome *= scale
     lambdaAway *= scale
   }
-  // 进球上限（修复：从6.0降至5.0，避免"5.7球"等不合理预测）
+  // 进球上限（v12：ELO差>350时放宽至7.0，德国7-1验证5.0严重不足）
+  // ELO差>350的极端对决（如德国vs库拉索364差）：强队实际可打进7球
+  // 一般对决保持5.0上限，避免普通比赛出现不合理的高进球预测
+  const eloDiffAbs = Math.abs(eloDiff)
+  const totalCap = eloDiffAbs > 350 ? 7.0 : 5.0
   const totalAfter = lambdaHome + lambdaAway
-  if (totalAfter > 5.0) {
-    const capScale = 5.0 / totalAfter
+  if (totalAfter > totalCap) {
+    const capScale = totalCap / totalAfter
     lambdaHome *= capScale
     lambdaAway *= capScale
   }
