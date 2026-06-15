@@ -19,7 +19,7 @@ jobs:
       - name: Build static export
         run: npm run build
         env:
-          GHPAGES: '1'
+          GHPAGES_BASE: '/worldcup26-48130'
       - name: Prepare gh-pages
         run: |
           mkdir -p gh-pages/_next
