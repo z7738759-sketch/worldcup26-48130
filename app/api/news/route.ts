@@ -130,6 +130,30 @@ export async function GET() {
   const autoNews: Array<typeof staticNews[0] & { type: string }> = []
   let autoId = 1000
 
+  // 进行中比赛实时比分（type:'live'，仅显示在比赛页，不显示在赛前分析页）
+  for (const s of allScores) {
+    if (!s.inProgress) continue
+
+    const leader = s.homeScore > s.awayScore ? `${s.homeTeam}领先` :
+                   s.awayScore > s.homeScore ? `${s.awayTeam}领先` : '平局'
+    const score = `${s.homeScore}-${s.awayScore}`
+    const halfStr = s.minute > 45 ? '下半场' : '上半场'
+
+    autoNews.push({
+      id: autoId++,
+      type: 'live',
+      team: s.homeTeam,
+      timestamp: new Date().toISOString(),
+      source: 'ESPN · 实时直播',
+      title: `🔴 直播 ${s.homeTeam} ${score} ${s.awayTeam}（${halfStr} ${s.minute}'）`,
+      content: `${s.homeTeam} vs ${s.awayTeam} 正在进行中。当前比分 ${score}，${leader}，第 ${s.minute} 分钟。数据每30秒自动刷新。`,
+      impactLevel: 'high',
+      impactNote: `实时数据来自ESPN，30秒轮询更新。终场后将自动生成赛后分析与模型校准。`,
+      relatedMatches: [],
+    })
+  }
+
+  // 已结束比赛终场摘要（type:'result'）
   for (const s of allScores) {
     if (!s.completed) continue
 
@@ -147,14 +171,14 @@ export async function GET() {
 
     autoNews.push({
       id: autoId++,
-      type: 'result',  // 终场结果，不在赛前分析中显示
+      type: 'result',
       team: s.homeTeam,
       timestamp: new Date().toISOString(),
       source: 'ESPN · 自动同步',
       title: `${s.homeTeam} ${score} ${s.awayTeam} 终场 · ${resultStr}`,
       content: `${s.homeTeam} ${score} ${s.awayTeam} 终场。${resultStr === '平局' ? `双方战平 ${score}` : `${winner}以 ${score} 取胜`}。数据来源：ESPN实时比分，每30秒自动同步。`,
       impactLevel: 'high',
-      impactNote: `比赛已结束，请等待完整赛后分析（通常在终场后30分钟内自动生成）。`,
+      impactNote: `比赛已结束，赛后分析与模型ELO校准将在30分钟内自动生成。`,
       relatedMatches: [],
     })
   }
