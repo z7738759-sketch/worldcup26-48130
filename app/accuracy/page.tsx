@@ -72,7 +72,7 @@ export default function AccuracyPage() {
                   background: (p as unknown as Record<string,unknown>).totalGoalsDirectionCorrect ? '#1a2d45' : '#3d1f1f',
                   color: (p as unknown as Record<string,unknown>).totalGoalsDirectionCorrect ? '#f5a623' : '#6b7f96',
                 }}>
-                  总进球{(p as unknown as Record<string,unknown>).totalGoalsDirectionCorrect ? '✅' : '—'}
+                  ⚽ {(p as unknown as Record<string,unknown>).totalGoalsPrediction as string || '—'} {(p as unknown as Record<string,unknown>).totalGoalsDirectionCorrect ? '✅' : p.actualScore ? '❌' : '—'}
                 </span>
               </div>
             </div>
