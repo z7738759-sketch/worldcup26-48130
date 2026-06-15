@@ -1,5 +1,17 @@
 [
   {
+    "id": 29,
+    "type": "result",
+    "team": "瑞典",
+    "timestamp": "2026-06-15T10:00:00+08:00",
+    "source": "ESPN · 自动同步",
+    "title": "瑞典5-1突尼斯终场 · 双前锋火力全开！方向✅但进球严重低估",
+    "content": "瑞典以5-1大胜突尼斯，创F组最大分差。进球：Ayari(7',90+6')双响、Isak(30')、Gyökeres(59')、Svanberg(84')；突尼斯Rekik(43'头球)。瑞典双前锋Gyökeres+Isak火力炸裂，5球碾压突尼斯防线。模型方向正确✅但进球数严重低估（预测最高2球，实际6球）。M9规则（DEFENSIVE_TEAMS惩罚×0.92）仍不足——实际瑞典攻击力远超Poisson λHome≈1.0。突尼斯继热身赛0-5比利时后再丢5球，防守体系面对顶级攻击线时崩塌。",
+    "impactLevel": "high",
+    "impactNote": "F组积分：瑞典3分(GD+4)，日本1分，荷兰1分，突尼斯0分(GD-4)。瑞典attackBoost+0.05。教训：双巅峰前锋对DEFENSIVE_TEAMS时需完全取消防守惩罚（待v15修复）。ELO：瑞典+12=1863，突尼斯-12=1759。",
+    "relatedMatches": [1011]
+  },
+  {
     "id": 28,
     "type": "pre-match",
     "team": "乌拉圭",

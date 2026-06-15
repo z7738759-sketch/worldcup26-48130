@@ -272,19 +272,20 @@
     "kickoff": "2026-06-15T02:00:00Z",
     "predictionA": "瑞典 1-0",
     "predictionB": "平局 0-0",
-    "actualScore": null,
-    "directionCorrect": null,
-    "exactHit": null,
+    "actualScore": "5-1",
+    "directionCorrect": true,
+    "exactHit": false,
+    "totalGoalsDirectionCorrect": false,
     "bettingValues": [
       {
         "stars": 2,
         "name": "Under 1.5进球",
         "odds": "-110",
-        "hit": null
+        "hit": false
       }
     ],
     "mRulesTriggered": [
-      "M8a"
+      "M8a", "M9"
     ],
     "teamNews": [
       "✅ 瑞典许克里斯(Gyökeres,Arsenal前锋)：刚夺英超冠军，状态顶峰，确认首发",
@@ -295,7 +296,7 @@
       "✅ 突尼斯：换帅后主打低位防守，防线基本完整",
       "💡 教练：Graham Potter(新任瑞典主帅)首次出战；突尼斯新帅首场世界杯"
     ],
-    "notes": "v13模型（M8a）：ELO差80，突尼斯低防体系→drawProb=33%，平局概率显著偏高。Poisson Top3：瑞典1-0(18%)、平局0-0(14%)、平局1-1(12%)。predA=瑞典1-0（主队胜最可能），predB=平局0-0（14%），predC=平局1-1（12%）。许克里斯+伊萨克双前锋有突破能力，但突尼斯新帅首场低防体系+汉尼巴尔存疑→防守优先战术",
+    "notes": "终场5-1瑞典大胜！方向正确✅但进球数严重低估（预测最高2球，实际6球）。M9规则（×0.92）仍严重不足——瑞典双前锋(Gyökeres+Isak)火力远超模型预期。进球者：Ayari(7',90+6')、Isak(30')、Gyökeres(59')、Svanberg(84')；突尼斯Rekik(43'头球)。教训：强攻击队对DEFENSIVE_TEAMS时，若双前锋均在巅峰状态，即使×0.92惩罚仍低估2-3球。需引入「双前锋bonus」规则。瑞典attackBoost+0.05。",
     "predictionC": "平局 1-1",
     "probabilityA": 37,
     "probabilityB": 33,
