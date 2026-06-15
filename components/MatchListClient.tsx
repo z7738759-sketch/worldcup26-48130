@@ -68,6 +68,12 @@ function computeExactHit(
   return preds.some(pred => pred.includes(scoreStr))
 }
 
+function dirLabel(wdl: string, home: string, away: string) {
+  if (wdl === 'home') return { icon: '🏠', text: `${home} 胜`, color: '#4ade80' }
+  if (wdl === 'away') return { icon: '✈️', text: `${away} 胜`, color: '#60a5fa' }
+  return { icon: '🤝', text: '平局', color: '#f5a623' }
+}
+
 function FlagImg({ team, size = 32 }: { team: string; size?: number }) {
   const url = getFlagUrl(team, '64x48')
   if (!url) return <div style={{ width: size, height: Math.round(size * 0.75), background: '#1e3a5f', borderRadius: 4, flexShrink: 0 }} />
@@ -245,9 +251,16 @@ export default function MatchListClient({ predictions }: { predictions: Predicti
                         </div>
                       ))}
                     </div>
-                    <div style={{ textAlign: 'center', fontSize: 11, color: '#3d5470' }}>
-                      ⚽ 总进球预测：<span style={{ color: '#6b7f96', fontWeight: 700 }}>{p.totalGoalsA}球</span> / <span style={{ color: '#6b7f96', fontWeight: 700 }}>{p.totalGoalsB}球</span>
-                    </div>
+                    {(() => {
+                      const dl = dirLabel(p.winDrawLoss, p.homeTeam, p.awayTeam)
+                      return (
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 8, padding: '6px 12px', background: '#070f1a', borderRadius: 8, border: '1px solid #1e3a5f' }}>
+                          <span style={{ fontSize: 10, color: '#3d5470', flexShrink: 0 }}>胜平负预测</span>
+                          <span style={{ fontSize: 13, fontWeight: 800, color: dl.color }}>{dl.icon} {dl.text}</span>
+                          <span style={{ fontSize: 10, color: '#3d5470', marginLeft: 'auto' }}>↗ 首页准确率追踪</span>
+                        </div>
+                      )
+                    })()}
                   </div>
                 </Link>
               )
@@ -298,9 +311,19 @@ export default function MatchListClient({ predictions }: { predictions: Predicti
                       </div>
                     ))}
                   </div>
-                  <div style={{ textAlign: 'center', fontSize: 12, color: '#3d5470', marginBottom: 14 }}>
+                  <div style={{ textAlign: 'center', fontSize: 12, color: '#3d5470', marginBottom: 10 }}>
                     ⚽ 总进球预测：<span style={{ color: '#8899aa', fontWeight: 700 }}>{p.totalGoalsA}球</span> / <span style={{ color: '#8899aa', fontWeight: 700 }}>{p.totalGoalsB}球</span>
                   </div>
+                  {(() => {
+                    const dl = dirLabel(p.winDrawLoss, p.homeTeam, p.awayTeam)
+                    return (
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12, padding: '8px 14px', background: '#070f1a', borderRadius: 10, border: `1px solid ${dl.color}30` }}>
+                        <span style={{ fontSize: 11, color: '#6b7f96', flexShrink: 0 }}>📊 胜平负预测</span>
+                        <span style={{ fontSize: 14, fontWeight: 900, color: dl.color }}>{dl.icon} {dl.text}</span>
+                        <span style={{ fontSize: 10, color: '#3d5470', marginLeft: 'auto' }}>↗ 首页准确率追踪</span>
+                      </div>
+                    )
+                  })()}
                   <div>
                     <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, marginBottom: 6, fontWeight: 600 }}>
                       <span style={{ color: '#4ade80' }}>{p.homeTeam} {p.homeWinPct}%</span>
@@ -369,14 +392,22 @@ export default function MatchListClient({ predictions }: { predictions: Predicti
                     {ds.fromEspn && (
                       <span style={{ fontSize: 10, color: '#3d5470', background: '#070f1a', padding: '1px 5px', borderRadius: 4 }}>⚡ESPN</span>
                     )}
-                    <span style={{ marginLeft: 'auto', fontSize: 13, flexShrink: 0 }}>
+                    <span style={{ marginLeft: 'auto', fontSize: 12, flexShrink: 0, display: 'flex', alignItems: 'center', gap: 6 }}>
+                      {(() => {
+                        const dl = dirLabel(p.winDrawLoss, p.homeTeam, p.awayTeam)
+                        return (
+                          <span style={{ color: dirResult ? dl.color : dirResult === false ? '#6b7f96' : '#3d5470', fontWeight: 700 }}>
+                            {dl.icon} {dl.text}
+                          </span>
+                        )
+                      })()}
                       {hitResult
-                        ? <span style={{ color: '#4ade80' }}>🎯 完全命中</span>
+                        ? <span style={{ color: '#4ade80' }}>🎯</span>
                         : dirResult
-                          ? <span style={{ color: '#60a5fa' }}>✅ 方向正确</span>
+                          ? <span style={{ color: '#4ade80' }}>✅</span>
                           : dirResult === false
-                            ? <span style={{ color: '#ef4444' }}>❌ 方向错误</span>
-                            : <span style={{ color: '#3d5470' }}>待核实</span>
+                            ? <span style={{ color: '#ef4444' }}>❌</span>
+                            : <span style={{ color: '#3d5470' }}>—</span>
                       }
                     </span>
                   </div>
