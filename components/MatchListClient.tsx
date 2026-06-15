@@ -19,6 +19,7 @@ interface Prediction {
   probabilityC: number
   directionCorrect: boolean | null
   exactHit: boolean | null
+  winDrawLoss: string
   homeWinPct: number
   drawPct: number
   awayWinPct: number
@@ -35,6 +36,38 @@ interface LiveScore {
   inProgress: boolean
 }
 
+// ESPN key lookup：尝试双向匹配，因为ESPN里主客队顺序可能与我们predictions相反
+function findLiveScore(
+  p: Prediction,
+  liveScores: Record<string, LiveScore>
+): { score: LiveScore; reversed: boolean } | null {
+  const key1 = `${p.homeTeam}|${p.awayTeam}`
+  if (liveScores[key1]) return { score: liveScores[key1], reversed: false }
+  const key2 = `${p.awayTeam}|${p.homeTeam}`
+  if (liveScores[key2]) return { score: liveScores[key2], reversed: true }
+  return null
+}
+
+// 从ESPN终场比分推算胜平负方向
+function computeDirectionFromScore(
+  winDrawLoss: string,
+  homeScore: number,
+  awayScore: number
+): boolean {
+  const actual = homeScore > awayScore ? 'home' : awayScore > homeScore ? 'away' : 'draw'
+  return actual === winDrawLoss
+}
+
+// 从ESPN比分检查是否有精确命中
+function computeExactHit(
+  preds: string[],
+  homeScore: number,
+  awayScore: number
+): boolean {
+  const scoreStr = `${homeScore}-${awayScore}`
+  return preds.some(pred => pred.includes(scoreStr))
+}
+
 function FlagImg({ team, size = 32 }: { team: string; size?: number }) {
   const url = getFlagUrl(team, '64x48')
   if (!url) return <div style={{ width: size, height: Math.round(size * 0.75), background: '#1e3a5f', borderRadius: 4, flexShrink: 0 }} />
@@ -46,7 +79,6 @@ export default function MatchListClient({ predictions }: { predictions: Predicti
   const [liveScores, setLiveScores] = useState<Record<string, LiveScore>>({})
   const [lastPoll, setLastPoll] = useState<Date | null>(null)
 
-  // 每10秒更新当前时间（确保比赛正确归类）
   useEffect(() => {
     const t = setInterval(() => setNow(new Date()), 10000)
     return () => clearInterval(t)
@@ -63,7 +95,6 @@ export default function MatchListClient({ predictions }: { predictions: Predicti
     } catch {}
   }, [])
 
-  // 首次加载 + 每30秒轮询
   useEffect(() => {
     fetchScores()
     const interval = setInterval(fetchScores, 30000)
@@ -72,28 +103,54 @@ export default function MatchListClient({ predictions }: { predictions: Predicti
 
   const next24h = new Date(now.getTime() + 24 * 60 * 60 * 1000)
 
+  // 判断比赛是否已结束：actualScore已录入 OR ESPN显示completed=true
+  function isMatchFinished(p: Prediction): boolean {
+    if (p.actualScore !== null) return true
+    const found = findLiveScore(p, liveScores)
+    return found?.score.completed === true
+  }
+
+  // 获取显示用比分（优先actualScore，fallback ESPN实时）和是否主客队翻转
+  function getDisplayScore(p: Prediction): {
+    score: string | null
+    fromEspn: boolean
+    homeScore: number
+    awayScore: number
+    espnReversed: boolean
+  } {
+    if (p.actualScore !== null) {
+      const [h, a] = p.actualScore.split('-').map(Number)
+      return { score: p.actualScore, fromEspn: false, homeScore: h, awayScore: a, espnReversed: false }
+    }
+    const found = findLiveScore(p, liveScores)
+    if (found) {
+      const { score, reversed } = found
+      // 若ESPN主客队顺序翻转，则交换分数
+      const homeScore = reversed ? score.awayScore : score.homeScore
+      const awayScore = reversed ? score.homeScore : score.awayScore
+      const scoreStr = `${homeScore}-${awayScore}`
+      return { score: scoreStr, fromEspn: true, homeScore, awayScore, espnReversed: reversed }
+    }
+    return { score: null, fromEspn: false, homeScore: 0, awayScore: 0, espnReversed: false }
+  }
+
   const inProgress = predictions.filter(p => {
-    if (p.actualScore !== null) return false
+    if (isMatchFinished(p)) return false
     const kickoff = new Date(p.kickoff)
     return kickoff <= now
   }).sort((a, b) => new Date(b.kickoff).getTime() - new Date(a.kickoff).getTime())
 
   const upcoming24h = predictions.filter(p => {
-    if (p.actualScore !== null) return false
+    if (isMatchFinished(p)) return false
     const kickoff = new Date(p.kickoff)
     return kickoff > now && kickoff <= next24h
   }).sort((a, b) => new Date(a.kickoff).getTime() - new Date(b.kickoff).getTime())
 
   const finished = predictions
-    .filter(p => p.actualScore !== null)
+    .filter(p => isMatchFinished(p))
     .sort((a, b) => new Date(b.kickoff).getTime() - new Date(a.kickoff).getTime())
 
-  const totalUpcoming = predictions.filter(p => p.actualScore === null).length
-
-  function getLiveScore(p: Prediction): LiveScore | null {
-    const key = `${p.homeTeam}|${p.awayTeam}`
-    return liveScores[key] ?? null
-  }
+  const totalUpcoming = predictions.filter(p => !isMatchFinished(p)).length
 
   function fmtKickoff(kickoff: string) {
     return new Date(kickoff).toLocaleString('zh-CN', {
@@ -121,7 +178,7 @@ export default function MatchListClient({ predictions }: { predictions: Predicti
         </div>
       </div>
 
-      {/* ── 🔴 已开赛 · 实时追踪 ── 始终在最顶部 */}
+      {/* ── 🔴 已开赛 · 实时追踪 ── */}
       {inProgress.length > 0 && (
         <section className="mb-12">
           <h2 style={{ fontSize: 14, color: '#ef4444', letterSpacing: '2px' }} className="font-bold uppercase mb-5 flex items-center gap-2">
@@ -133,58 +190,42 @@ export default function MatchListClient({ predictions }: { predictions: Predicti
           </h2>
           <div className="space-y-4">
             {inProgress.map(p => {
-              const live = getLiveScore(p)
-              const hasLive = live !== null
-              const scoreDisplay = hasLive
-                ? `${live.homeScore} - ${live.awayScore}`
-                : '进行中'
-              const isCompleted = hasLive && live.completed
+              const found = findLiveScore(p, liveScores)
+              const live = found?.score ?? null
+              const reversed = found?.reversed ?? false
+              const homeScore = live ? (reversed ? live.awayScore : live.homeScore) : null
+              const awayScore = live ? (reversed ? live.homeScore : live.awayScore) : null
+              const hasScore = homeScore !== null && awayScore !== null
 
               return (
                 <Link key={p.matchId} href={`/match/${p.matchId}`}
-                  style={{
-                    background: isCompleted
-                      ? 'linear-gradient(135deg, #0d1b2a, #111f30)'
-                      : 'linear-gradient(135deg, #0d1b2a, #1a0f0f)',
-                    border: `1px solid ${isCompleted ? '#1e6b3f40' : '#ef444440'}`,
-                    display: 'block', textDecoration: 'none'
-                  }}
+                  style={{ background: 'linear-gradient(135deg, #0d1b2a, #1a0f0f)', border: '1px solid #ef444440', display: 'block', textDecoration: 'none' }}
                   className="rounded-2xl hover:border-red-500/50 transition-all overflow-hidden">
                   <div className="p-5 sm:p-6">
                     <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
                       <div className="flex items-center gap-3">
-                        <span style={{ fontSize: 12, color: '#ef4444', fontWeight: 700, letterSpacing: '2px', background: '#3d1f1f', padding: '3px 10px', borderRadius: 6 }}>
-                          {p.group}
-                        </span>
-                        {isCompleted
-                          ? <span style={{ fontSize: 12, color: '#4ade80', fontWeight: 700, background: '#0f3320', padding: '2px 8px', borderRadius: 6 }}>✅ 已结束</span>
-                          : hasLive && live.inProgress
-                            ? <span style={{ fontSize: 12, color: '#ef4444', fontWeight: 700, display: 'flex', alignItems: 'center', gap: 4 }}>
-                                <span style={{ width: 6, height: 6, borderRadius: 3, background: '#ef4444', display: 'inline-block', animation: 'pulse 1s infinite' }} />
-                                {live.minute}
-                              </span>
-                            : <span style={{ fontSize: 13, color: '#ef4444' }}>🔴 待核实</span>
-                        }
+                        <span style={{ fontSize: 12, color: '#ef4444', fontWeight: 700, letterSpacing: '2px', background: '#3d1f1f', padding: '3px 10px', borderRadius: 6 }}>{p.group}</span>
+                        {live?.inProgress && (
+                          <span style={{ fontSize: 12, color: '#ef4444', fontWeight: 700, display: 'flex', alignItems: 'center', gap: 4 }}>
+                            <span style={{ width: 6, height: 6, borderRadius: 3, background: '#ef4444', display: 'inline-block', animation: 'pulse 1s infinite' }} />
+                            {live.minute}
+                          </span>
+                        )}
                       </div>
-                      <span style={{ fontSize: 12, color: '#6b7f96' }}>🕐 {fmtKickoff(p.kickoff)} 开赛</span>
+                      <span style={{ fontSize: 12, color: '#6b7f96' }}>🕐 {fmtKickoff(p.kickoff)}</span>
                     </div>
-
-                    {/* 比分显示区 */}
                     <div className="flex items-center justify-between mb-5">
                       <div className="flex items-center gap-3">
                         <FlagImg team={p.homeTeam} size={36} />
                         <span style={{ color: 'white', fontWeight: 800, fontSize: 18 }}>{p.homeTeam}</span>
                       </div>
                       <div style={{ textAlign: 'center' }}>
-                        {hasLive ? (
-                          <div style={{ fontSize: 28, fontWeight: 900, color: isCompleted ? '#f5a623' : '#ef4444', letterSpacing: 2 }}>
-                            {live.homeScore} <span style={{ color: '#3d5470' }}>-</span> {live.awayScore}
+                        {hasScore ? (
+                          <div style={{ fontSize: 28, fontWeight: 900, color: '#ef4444', letterSpacing: 2 }}>
+                            {homeScore} <span style={{ color: '#3d5470' }}>-</span> {awayScore}
                           </div>
                         ) : (
                           <div style={{ fontSize: 14, color: '#ef4444', fontWeight: 700 }}>VS</div>
-                        )}
-                        {hasLive && !isCompleted && !live.inProgress && (
-                          <div style={{ fontSize: 10, color: '#6b7f96', marginTop: 2 }}>比分待确认</div>
                         )}
                       </div>
                       <div className="flex items-center gap-3">
@@ -192,8 +233,6 @@ export default function MatchListClient({ predictions }: { predictions: Predicti
                         <FlagImg team={p.awayTeam} size={36} />
                       </div>
                     </div>
-
-                    {/* 预测摘要 */}
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8, marginBottom: 8 }}>
                       {[
                         { label: `A ${p.probabilityA}%`, value: p.predictionA, color: '#f5a623' },
@@ -232,9 +271,7 @@ export default function MatchListClient({ predictions }: { predictions: Predicti
                 <div className="p-5 sm:p-6">
                   <div className="flex items-center justify-between mb-5">
                     <div className="flex items-center gap-3">
-                      <span style={{ fontSize: 12, color: '#f5a623', fontWeight: 700, letterSpacing: '2px', background: '#1a2d45', padding: '3px 10px', borderRadius: 6 }}>
-                        {p.group}
-                      </span>
+                      <span style={{ fontSize: 12, color: '#f5a623', fontWeight: 700, letterSpacing: '2px', background: '#1a2d45', padding: '3px 10px', borderRadius: 6 }}>{p.group}</span>
                       <span style={{ fontSize: 13, color: '#6b7f96' }}>🕐 北京时间 {fmtKickoff(p.kickoff)}</span>
                     </div>
                   </div>
@@ -295,7 +332,7 @@ export default function MatchListClient({ predictions }: { predictions: Predicti
         </section>
       )}
 
-      {/* ── ✅ 已完成 ── */}
+      {/* ── ✅ 已完成 · 赛后复盘 ── */}
       {finished.length > 0 && (
         <section>
           <h2 style={{ fontSize: 14, color: '#22c55e', letterSpacing: '2px' }} className="font-bold uppercase mb-5 flex items-center gap-2">
@@ -303,27 +340,49 @@ export default function MatchListClient({ predictions }: { predictions: Predicti
             ✅ 已完成 · 赛后复盘
           </h2>
           <div className="space-y-2.5">
-            {finished.slice(0, 12).map(p => (
-              <Link key={p.matchId} href={`/match/${p.matchId}`}
-                style={{ background: '#0d1b2a', border: '1px solid #1e3a5f', display: 'block', textDecoration: 'none' }}
-                className="rounded-xl p-4 hover:border-yellow-600/40 transition-all">
-                <div className="flex items-center gap-3 flex-wrap">
-                  <span style={{ fontSize: 12, color: '#6b7f96', minWidth: 64, flexShrink: 0 }}>{fmtKickoff(p.kickoff)}</span>
-                  <span style={{ fontSize: 11, color: '#f5a623', fontWeight: 700, minWidth: 40, flexShrink: 0 }}>{p.group}</span>
-                  <span style={{ color: 'white', fontSize: 14, fontWeight: 600 }}>{p.homeTeam}</span>
-                  <span style={{ color: '#f5a623', fontWeight: 900, fontSize: 16 }}>{p.actualScore}</span>
-                  <span style={{ color: 'white', fontSize: 14, fontWeight: 600 }}>{p.awayTeam}</span>
-                  <span style={{ marginLeft: 'auto', fontSize: 13, flexShrink: 0 }}>
-                    {p.exactHit
-                      ? <span style={{ color: '#4ade80' }}>🎯 完全命中</span>
-                      : p.directionCorrect
-                        ? <span style={{ color: '#60a5fa' }}>✅ 方向正确</span>
-                        : <span style={{ color: '#ef4444' }}>❌ 方向错误</span>
-                    }
-                  </span>
-                </div>
-              </Link>
-            ))}
+            {finished.slice(0, 16).map(p => {
+              const ds = getDisplayScore(p)
+              // 方向结果：优先用predictions.json里的，没有则用ESPN实时计算
+              const dirResult: boolean | null = p.directionCorrect !== null
+                ? p.directionCorrect
+                : ds.score !== null
+                  ? computeDirectionFromScore(p.winDrawLoss, ds.homeScore, ds.awayScore)
+                  : null
+              const hitResult: boolean | null = p.exactHit !== null
+                ? p.exactHit
+                : ds.score !== null
+                  ? computeExactHit([p.predictionA, p.predictionB, p.predictionC], ds.homeScore, ds.awayScore)
+                  : null
+
+              return (
+                <Link key={p.matchId} href={`/match/${p.matchId}`}
+                  style={{ background: '#0d1b2a', border: '1px solid #1e3a5f', display: 'block', textDecoration: 'none' }}
+                  className="rounded-xl p-4 hover:border-yellow-600/40 transition-all">
+                  <div className="flex items-center gap-3 flex-wrap">
+                    <span style={{ fontSize: 12, color: '#6b7f96', minWidth: 64, flexShrink: 0 }}>{fmtKickoff(p.kickoff)}</span>
+                    <span style={{ fontSize: 11, color: '#f5a623', fontWeight: 700, minWidth: 40, flexShrink: 0 }}>{p.group}</span>
+                    <span style={{ color: 'white', fontSize: 14, fontWeight: 600 }}>{p.homeTeam}</span>
+                    <span style={{ color: '#f5a623', fontWeight: 900, fontSize: 16 }}>
+                      {ds.score ?? '?-?'}
+                    </span>
+                    <span style={{ color: 'white', fontSize: 14, fontWeight: 600 }}>{p.awayTeam}</span>
+                    {ds.fromEspn && (
+                      <span style={{ fontSize: 10, color: '#3d5470', background: '#070f1a', padding: '1px 5px', borderRadius: 4 }}>⚡ESPN</span>
+                    )}
+                    <span style={{ marginLeft: 'auto', fontSize: 13, flexShrink: 0 }}>
+                      {hitResult
+                        ? <span style={{ color: '#4ade80' }}>🎯 完全命中</span>
+                        : dirResult
+                          ? <span style={{ color: '#60a5fa' }}>✅ 方向正确</span>
+                          : dirResult === false
+                            ? <span style={{ color: '#ef4444' }}>❌ 方向错误</span>
+                            : <span style={{ color: '#3d5470' }}>待核实</span>
+                      }
+                    </span>
+                  </div>
+                </Link>
+              )
+            })}
           </div>
         </section>
       )}

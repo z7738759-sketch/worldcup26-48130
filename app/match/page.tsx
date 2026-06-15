@@ -29,6 +29,7 @@ export default function MatchListPage() {
       probabilityC: p.probabilityC,
       directionCorrect: p.directionCorrect,
       exactHit: p.exactHit,
+      winDrawLoss: p.winDrawLoss ?? 'home',
       homeWinPct: model.homeWinPct,
       drawPct: model.drawPct,
       awayWinPct: model.awayWinPct,

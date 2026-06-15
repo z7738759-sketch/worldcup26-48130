@@ -1,4 +1,5 @@
-import liveNews from '@/data/live-news.json'
+'use client'
+import { useState, useEffect } from 'react'
 
 interface NewsItem {
   id: number
@@ -11,8 +12,6 @@ interface NewsItem {
   impactNote: string
   relatedMatches: number[]
 }
-
-const newsData = liveNews as NewsItem[]
 
 const IMPACT_COLORS: Record<string, string> = {
   high: '#ef4444',
@@ -27,78 +26,94 @@ const IMPACT_LABELS: Record<string, string> = {
 }
 
 export default function LiveNews({ teamFilter, matchId }: { teamFilter?: string; matchId?: number }) {
-  let items = newsData
+  const [items, setItems] = useState<NewsItem[]>([])
+  const [lastUpdate, setLastUpdate] = useState<string>('')
 
-  if (teamFilter) {
-    items = items.filter(n => n.team === teamFilter)
-  } else if (matchId) {
-    items = items.filter(n => n.relatedMatches.includes(matchId))
-  }
+  useEffect(() => {
+    const load = async () => {
+      try {
+        const res = await fetch('/api/news', { cache: 'no-store' })
+        const data = await res.json()
+        let news: NewsItem[] = data.news ?? []
 
-  // 按时间倒序
-  items = [...items].sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
+        if (teamFilter) {
+          news = news.filter(n => n.team === teamFilter)
+        } else if (matchId) {
+          news = news.filter(n => n.relatedMatches.includes(matchId))
+        }
+
+        news = [...news].sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
+        setItems(news)
+        setLastUpdate(new Date().toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' }))
+      } catch {}
+    }
+
+    load()
+    const interval = setInterval(load, 60000)
+    return () => clearInterval(interval)
+  }, [teamFilter, matchId])
 
   if (items.length === 0) return null
 
   return (
     <div style={{ background: 'linear-gradient(135deg, #0d1b2a, #0f1d30)', border: '1px solid #1e3a5f', borderRadius: 16, padding: 'clamp(14px, 2vw, 20px)', marginBottom: 20 }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16, flexWrap: 'wrap' }}>
         <span style={{ fontSize: 16 }}>📡</span>
         <h3 style={{ fontSize: 14, color: '#f5a623', fontWeight: 700, letterSpacing: '1px', margin: 0 }}>
           实时消息追踪
         </h3>
         <span style={{ fontSize: 10, color: '#6b7f96', background: '#1a2d45', padding: '2px 8px', borderRadius: 9999 }}>
-          {items.length} 条已验证
+          {items.length} 条
         </span>
+        {lastUpdate && (
+          <span style={{ marginLeft: 'auto', fontSize: 10, color: '#3d5470' }}>
+            更新 {lastUpdate}
+          </span>
+        )}
       </div>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
         {items.map(item => (
           <div key={item.id} style={{
             background: '#070f1a',
-            border: `1px solid ${IMPACT_COLORS[item.impactLevel]}20`,
-            borderLeft: `3px solid ${IMPACT_COLORS[item.impactLevel]}`,
+            border: `1px solid ${IMPACT_COLORS[item.impactLevel] ?? '#f5a623'}20`,
+            borderLeft: `3px solid ${IMPACT_COLORS[item.impactLevel] ?? '#f5a623'}`,
             borderRadius: 12,
             padding: 14,
           }}>
-            {/* 标题行 */}
             <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 8, flexWrap: 'wrap', gap: 6 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
                 <span style={{ fontSize: 12, color: '#cdd9e5', fontWeight: 700 }}>{item.title}</span>
                 <span style={{
                   fontSize: 10, fontWeight: 700, padding: '1px 6px', borderRadius: 9999,
-                  background: `${IMPACT_COLORS[item.impactLevel]}20`,
-                  color: IMPACT_COLORS[item.impactLevel],
+                  background: `${IMPACT_COLORS[item.impactLevel] ?? '#f5a623'}20`,
+                  color: IMPACT_COLORS[item.impactLevel] ?? '#f5a623',
                 }}>
-                  {IMPACT_LABELS[item.impactLevel]}
+                  {IMPACT_LABELS[item.impactLevel] ?? item.impactLevel}
                 </span>
               </div>
               <span style={{ fontSize: 10, color: '#6b7f96', flexShrink: 0 }}>
-                🕐 {new Date(item.timestamp).toLocaleString('zh-CN', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Shanghai' })} 北京时间
+                🕐 {new Date(item.timestamp).toLocaleString('zh-CN', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Shanghai' })} 北京
               </span>
             </div>
 
-            {/* 内容 */}
             <div style={{ fontSize: 13, color: '#8899aa', lineHeight: 1.7, marginBottom: 10 }}>
               {item.content}
             </div>
 
-            {/* 来源 */}
             <div style={{ fontSize: 10, color: '#3d5470', marginBottom: 8 }}>
               📋 来源：{item.source}
             </div>
 
-            {/* 影响评估 */}
             <div style={{
               background: '#0a1525',
               border: '1px solid #1a2d45',
               borderRadius: 10,
               padding: '10px 14px',
               fontSize: 12,
-              color: '#f59e0b',
               lineHeight: 1.6,
             }}>
-              <span style={{ fontWeight: 700, color: IMPACT_COLORS[item.impactLevel] }}>⚠️ 影响评估：</span>
+              <span style={{ fontWeight: 700, color: IMPACT_COLORS[item.impactLevel] ?? '#f5a623' }}>⚠️ 影响评估：</span>
               <span style={{ color: '#cdd9e5' }}>{item.impactNote}</span>
               <div style={{ fontSize: 10, color: '#6b7f96', marginTop: 4 }}>
                 ℹ️ 预测结果未修改 · 以下为基于当前信息的额外判断

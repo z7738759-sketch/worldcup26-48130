@@ -193,15 +193,16 @@
     "kickoff": "2026-06-14T20:00:00Z",
     "predictionA": "荷兰 2-1",
     "predictionB": "荷兰 1-1",
-    "actualScore": null,
-    "directionCorrect": null,
-    "exactHit": null,
+    "actualScore": "2-2",
+    "directionCorrect": false,
+    "exactHit": false,
+    "totalGoalsDirectionCorrect": true,
     "bettingValues": [
       {
         "stars": 2,
         "name": "荷兰获胜",
         "odds": "-150",
-        "hit": null
+        "hit": false
       }
     ],
     "mRulesTriggered": [
@@ -217,7 +218,7 @@
       "🟡 荷兰德佩(前锋)：腿筋旧患，本届大打折扣",
       "✅ 荷兰加克波+马伦：均可出战，攻击线仍具威胁"
     ],
-    "notes": "重大伤情更新→预测从平局改为荷兰胜。日本双核缺席（远藤退役+三笘伤缺）破坏战术体系。荷兰虽有伤病(Timber/德里赫特/Schouten)但深度更好。亚洲逆境力系数下调，日本爆冷概率从+10%降至+5%",
+    "notes": "终场2-2！方向错误。日本两度落后后追平（中村敬斗57'、镰田大地89'），ASIA逆境力规则再次验证。荷兰双核缺席（德容+西蒙斯）影响大于预期——中场创造力不足，无法锁定胜局。M7规则延伸：荷兰缺阵=创造力断层，无法转化优势。总进球4球，在预测区间2-4内 ✅",
     "predictionC": "荷兰 3-1",
     "probabilityA": 36,
     "probabilityB": 32,
