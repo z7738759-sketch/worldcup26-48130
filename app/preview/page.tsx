@@ -1,3 +1,5 @@
+export const revalidate = 30
+
 import Image from 'next/image'
 import Link from 'next/link'
 import { getAllPredictions } from '@/lib/predictions'
@@ -94,8 +96,8 @@ export default function PreviewPage() {
         </p>
       </div>
 
-      {/* 实时消息汇总 */}
-      <LiveNews />
+      {/* 赛前深度情报（仅展示赛前分析，过滤终场结果） */}
+      <LiveNews preMatchOnly={true} />
 
       {upcoming.length === 0 ? (
         <div style={{ background: '#0d1b2a', border: '1px solid #1e3a5f' }} className="rounded-2xl p-16 text-center">
@@ -230,6 +232,35 @@ export default function PreviewPage() {
                       ))}
                     </div>
                   </div>
+
+                  {/* 球队情报 */}
+                  {p.teamNews && p.teamNews.length > 0 && (
+                    <div>
+                      <div style={{ fontSize: 12, color: '#60a5fa', fontWeight: 700, letterSpacing: '2px', marginBottom: 10 }}>
+                        🔍 赛前情报
+                      </div>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                        {p.teamNews.map((item, i) => {
+                          const icon = item.startsWith('✅') ? '#4ade80'
+                            : item.startsWith('❌') ? '#ef4444'
+                            : item.startsWith('🟡') ? '#f5a623'
+                            : item.startsWith('💡') ? '#a78bfa'
+                            : '#6b7f96'
+                          return (
+                            <div key={i} style={{
+                              fontSize: 12, color: '#8899aa', lineHeight: 1.6,
+                              padding: '6px 10px',
+                              background: '#070f1a',
+                              borderLeft: `3px solid ${icon}`,
+                              borderRadius: '0 8px 8px 0',
+                            }}>
+                              {item}
+                            </div>
+                          )
+                        })}
+                      </div>
+                    </div>
+                  )}
 
                 </div>
               </div>

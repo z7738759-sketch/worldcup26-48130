@@ -127,13 +127,11 @@ export async function GET() {
   // 从静态新闻中提取已覆盖的比赛
   const coveredTitles = staticNews.map(n => n.title.toLowerCase())
 
-  const autoNews: Array<typeof staticNews[0]> = []
+  const autoNews: Array<typeof staticNews[0] & { type: string }> = []
   let autoId = 1000
 
   for (const s of allScores) {
     if (!s.completed) continue
-    const key = buildMatchKey(s.homeTeam, s.awayTeam)
-    const keyRev = buildMatchKey(s.awayTeam, s.homeTeam)
 
     // 检查是否已有终场新闻（静态库里有该组合）
     const alreadyCovered = coveredTitles.some(t =>
@@ -149,6 +147,7 @@ export async function GET() {
 
     autoNews.push({
       id: autoId++,
+      type: 'result',  // 终场结果，不在赛前分析中显示
       team: s.homeTeam,
       timestamp: new Date().toISOString(),
       source: 'ESPN · 自动同步',

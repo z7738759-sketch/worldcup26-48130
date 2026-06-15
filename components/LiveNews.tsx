@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 
 interface NewsItem {
   id: number
+  type?: string  // 'pre-match' | 'result' | 'info' | undefined
   team: string
   timestamp: string
   source: string
@@ -25,7 +26,7 @@ const IMPACT_LABELS: Record<string, string> = {
   low: '轻微影响',
 }
 
-export default function LiveNews({ teamFilter, matchId }: { teamFilter?: string; matchId?: number }) {
+export default function LiveNews({ teamFilter, matchId, preMatchOnly }: { teamFilter?: string; matchId?: number; preMatchOnly?: boolean }) {
   const [items, setItems] = useState<NewsItem[]>([])
   const [lastUpdate, setLastUpdate] = useState<string>('')
 
@@ -35,6 +36,11 @@ export default function LiveNews({ teamFilter, matchId }: { teamFilter?: string;
         const res = await fetch('/api/news', { cache: 'no-store' })
         const data = await res.json()
         let news: NewsItem[] = data.news ?? []
+
+        // preMatchOnly：仅显示赛前分析，排除终场结果类信息
+        if (preMatchOnly) {
+          news = news.filter(n => n.type === 'pre-match')
+        }
 
         if (teamFilter) {
           news = news.filter(n => n.team === teamFilter)
@@ -49,9 +55,9 @@ export default function LiveNews({ teamFilter, matchId }: { teamFilter?: string;
     }
 
     load()
-    const interval = setInterval(load, 60000)
+    const interval = setInterval(load, 30000)  // 30s轮询（原60s）
     return () => clearInterval(interval)
-  }, [teamFilter, matchId])
+  }, [teamFilter, matchId, preMatchOnly])
 
   if (items.length === 0) return null
 
