@@ -76,20 +76,18 @@ export function getAccuracyStats() {
     })
   }).length
 
-  // 总进球类：严格使用预存的独立泊松区间，与比分预测算法完全不同
+  // 总进球类：预测值与实际精确匹配（格式 "X球"，取predictionA的进球总数）
   const totalGoalsHits = finished.filter(p => {
     if (!p.actualScore) return false
     const ext = p as unknown as Record<string, unknown>
     const stored = ext.totalGoalsPrediction as string | undefined
-    // 优先使用存储的泊松区间（格式 "X-Y球"）
     if (stored) {
-      const m = stored.match(/(\d+)-(\d+)/)
-      if (m) {
+      const predNum = parseInt(stored)
+      if (!isNaN(predNum)) {
         const [hg, ag] = p.actualScore.split('-').map(Number)
-        return (hg + ag) >= parseInt(m[1]) && (hg + ag) <= parseInt(m[2])
+        return (hg + ag) === predNum
       }
     }
-    // 无区间时回退已录入的 totalGoalsDirectionCorrect
     const tg = ext.totalGoalsDirectionCorrect
     return tg === true
   }).length
