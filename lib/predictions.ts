@@ -76,20 +76,22 @@ export function getAccuracyStats() {
     })
   }).length
 
-  // 总进球类：独立核算（总进球独立泊松运算，不依赖预测比分）
+  // 总进球类：严格使用预存的独立泊松区间，与比分预测算法完全不同
   const totalGoalsHits = finished.filter(p => {
-    const tg = (p as unknown as Record<string, unknown>).totalGoalsDirectionCorrect
-    if (tg === true || tg === false) return tg
     if (!p.actualScore) return false
-    const [hg, ag] = p.actualScore.split('-').map(Number)
-    const actualTotal = hg + ag
-    // 从A/B/C中解析所有可能的总进球范围
-    const preds = [p.predictionA, p.predictionB, p.predictionC]
-    const goalCounts = preds.map(t => parseGoalsFromPredictionText(t)).filter((g): g is number => g !== null)
-    if (goalCounts.length === 0) return false
-    const lo = Math.min(...goalCounts)
-    const hi = Math.max(...goalCounts)
-    return actualTotal >= lo && actualTotal <= hi
+    const ext = p as unknown as Record<string, unknown>
+    const stored = ext.totalGoalsPrediction as string | undefined
+    // 优先使用存储的泊松区间（格式 "X-Y球"）
+    if (stored) {
+      const m = stored.match(/(\d+)-(\d+)/)
+      if (m) {
+        const [hg, ag] = p.actualScore.split('-').map(Number)
+        return (hg + ag) >= parseInt(m[1]) && (hg + ag) <= parseInt(m[2])
+      }
+    }
+    // 无区间时回退已录入的 totalGoalsDirectionCorrect
+    const tg = ext.totalGoalsDirectionCorrect
+    return tg === true
   }).length
 
   return {

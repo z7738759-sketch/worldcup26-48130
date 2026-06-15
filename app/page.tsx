@@ -24,11 +24,6 @@ function makeSummary(p: ReturnType<typeof getAllPredictions>[0]): string {
   return `方向错误，实际 ${p.actualScore}`
 }
 
-function parseGoalsFromText(text: string): number | null {
-  const m = text.match(/(\d+)-(\d+)/)
-  return m ? parseInt(m[1]) + parseInt(m[2]) : null
-}
-
 function hitBadge(p: { directionCorrect: boolean | null; exactHit: boolean | null }) {
   if (p.exactHit) {
     return <span style={{ background: '#14532d', color: '#4ade80', fontSize: 12, fontWeight: 700, padding: '2px 10px', borderRadius: 9999, flexShrink: 0 }}>🎯 命中</span>
@@ -175,24 +170,22 @@ export default function HomePage() {
                       <span style={{ fontWeight: 700, color: p.predictionC === p.actualScore ? '#4ade80' : '#8899aa', textDecoration: p.predictionC === p.actualScore ? 'none' : 'line-through' }}>{p.predictionC}</span>
                     </div>
 
-                    {/* 总进球对比 */}
+                    {/* 总进球对比（独立泊松区间，与比分算法完全不同） */}
                     {(() => {
                       if (!p.actualScore) return null
+                      const ext = p as unknown as Record<string, unknown>
+                      const range = ext.totalGoalsPrediction as string | undefined
+                      if (!range) return null
+                      const m = range.match(/(\d+)-(\d+)/)
+                      if (!m) return null
                       const [hg, ag] = p.actualScore.split('-').map(Number)
                       const actualTotal = hg + ag
-                      const ga = parseGoalsFromText(p.predictionA)
-                      const gb = parseGoalsFromText(p.predictionB)
-                      const gc = parseGoalsFromText(p.predictionC)
-                      const allPreds = [ga, gb, gc].filter((g): g is number => g !== null)
-                      if (allPreds.length === 0) return null
-                      const lo = Math.min(...allPreds), hi = Math.max(...allPreds)
+                      const lo = parseInt(m[1]), hi = parseInt(m[2])
                       const inRange = actualTotal >= lo && actualTotal <= hi
                       return (
                         <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap', fontSize: 'clamp(10px, 1.3vw, 12px)', marginTop: 8, paddingTop: 8, borderTop: '1px dashed #1e3a5f' }}>
-                          <span style={{ color: '#6b7f96' }}>⚽ 总进球</span>
-                          {ga !== null && <span style={{ color: '#f5a623', fontWeight: 600 }}>A:{ga}</span>}
-                          {gb !== null && <span style={{ color: '#60a5fa', fontWeight: 600 }}>B:{gb}</span>}
-                          {gc !== null && <span style={{ color: '#a78bfa', fontWeight: 600 }}>C:{gc}</span>}
+                          <span style={{ color: '#6b7f96' }}>⚽ 泊松区间</span>
+                          <span style={{ color: '#f5a623', fontWeight: 700 }}>{range}</span>
                           <span style={{ color: '#3d5470' }}>→ 实际</span>
                           <strong style={{ color: inRange ? '#4ade80' : '#ef4444' }}>{actualTotal}球 {inRange ? '✅' : '❌'}</strong>
                         </div>

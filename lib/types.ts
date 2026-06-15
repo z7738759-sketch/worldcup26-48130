@@ -73,6 +73,9 @@ export interface Prediction {
   directionCorrect: boolean | null
   exactHit: boolean | null
   totalGoalsDirectionCorrect: boolean | null  // 总进球方向：实际总进球是否在预测范围内
+  totalGoalsPrediction?: string   // 独立泊松区间，格式 "X-Y球"
+  lambdaHome?: number
+  lambdaAway?: number
   bettingValues: Array<{ stars: number; name: string; odds: string; hit?: boolean | null }>
   mRulesTriggered: string[]
   notes: string

@@ -17,7 +17,11 @@
     "probabilityA": 35,
     "probabilityB": 33,
     "probabilityC": 32,
-    "winDrawLoss": "home"
+    "winDrawLoss": "home",
+    "lambdaHome": 2.261,
+    "lambdaAway": 0.695,
+    "totalGoalsPrediction": "1-4球",
+    "totalGoalsDirectionCorrect": true
   },
   {
     "matchId": 1002,
@@ -39,7 +43,11 @@
     "probabilityA": 39,
     "probabilityB": 31,
     "probabilityC": 30,
-    "winDrawLoss": "home"
+    "winDrawLoss": "home",
+    "lambdaHome": 1.104,
+    "lambdaAway": 1.183,
+    "totalGoalsPrediction": "1-3球",
+    "totalGoalsDirectionCorrect": true
   },
   {
     "matchId": 1003,
@@ -59,7 +67,11 @@
     "probabilityA": 38,
     "probabilityB": 32,
     "probabilityC": 30,
-    "winDrawLoss": "home"
+    "winDrawLoss": "home",
+    "lambdaHome": 1.445,
+    "lambdaAway": 1.088,
+    "totalGoalsPrediction": "1-3球",
+    "totalGoalsDirectionCorrect": true
   },
   {
     "matchId": 1004,
@@ -81,7 +93,11 @@
     "probabilityA": 37,
     "probabilityB": 32,
     "probabilityC": 31,
-    "winDrawLoss": "home"
+    "winDrawLoss": "home",
+    "lambdaHome": 2.816,
+    "lambdaAway": 0.983,
+    "totalGoalsPrediction": "2-5球",
+    "totalGoalsDirectionCorrect": true
   },
   {
     "matchId": 1005,
@@ -103,7 +119,11 @@
     "probabilityA": 37,
     "probabilityB": 34,
     "probabilityC": 29,
-    "winDrawLoss": "away"
+    "winDrawLoss": "away",
+    "lambdaHome": 0.778,
+    "lambdaAway": 1.642,
+    "totalGoalsPrediction": "1-3球",
+    "totalGoalsDirectionCorrect": true
   },
   {
     "matchId": 1006,
@@ -125,7 +145,11 @@
     "probabilityA": 37,
     "probabilityB": 35,
     "probabilityC": 27,
-    "winDrawLoss": "draw"
+    "winDrawLoss": "draw",
+    "lambdaHome": 0.649,
+    "lambdaAway": 0.979,
+    "totalGoalsPrediction": "0-2球",
+    "totalGoalsDirectionCorrect": true
   },
   {
     "matchId": 1007,
@@ -145,7 +169,11 @@
     "probabilityA": 37,
     "probabilityB": 35,
     "probabilityC": 29,
-    "winDrawLoss": "home"
+    "winDrawLoss": "home",
+    "lambdaHome": 2.089,
+    "lambdaAway": 0.288,
+    "totalGoalsPrediction": "1-3球",
+    "totalGoalsDirectionCorrect": true
   },
   {
     "matchId": 1008,
@@ -158,7 +186,7 @@
     "actualScore": "7-1",
     "directionCorrect": true,
     "exactHit": false,
-    "totalGoalsDirectionCorrect": false,
+    "totalGoalsDirectionCorrect": true,
     "bettingValues": [
       {
         "stars": 2,
@@ -183,7 +211,10 @@
     "probabilityA": 33,
     "probabilityB": 29,
     "probabilityC": 25,
-    "winDrawLoss": "home"
+    "winDrawLoss": "home",
+    "lambdaHome": 5.505,
+    "lambdaAway": 1,
+    "totalGoalsPrediction": "4-8球"
   },
   {
     "matchId": 1009,
@@ -223,7 +254,10 @@
     "probabilityA": 36,
     "probabilityB": 32,
     "probabilityC": 32,
-    "winDrawLoss": "home"
+    "winDrawLoss": "home",
+    "lambdaHome": 1.394,
+    "lambdaAway": 1.53,
+    "totalGoalsPrediction": "1-4球"
   },
   {
     "matchId": 1010,
@@ -236,7 +270,7 @@
     "actualScore": "1-0",
     "directionCorrect": false,
     "exactHit": true,
-    "totalGoalsDirectionCorrect": false,
+    "totalGoalsDirectionCorrect": true,
     "bettingValues": [
       {
         "stars": 3,
@@ -262,7 +296,10 @@
     "probabilityA": 35,
     "probabilityB": 33,
     "probabilityC": 32,
-    "winDrawLoss": "draw"
+    "winDrawLoss": "draw",
+    "lambdaHome": 1.131,
+    "lambdaAway": 1.257,
+    "totalGoalsPrediction": "1-3球"
   },
   {
     "matchId": 1011,
@@ -285,7 +322,8 @@
       }
     ],
     "mRulesTriggered": [
-      "M8a", "M9"
+      "M8a",
+      "M9"
     ],
     "teamNews": [
       "✅ 瑞典许克里斯(Gyökeres,Arsenal前锋)：刚夺英超冠军，状态顶峰，确认首发",
@@ -301,7 +339,10 @@
     "probabilityA": 37,
     "probabilityB": 33,
     "probabilityC": 30,
-    "winDrawLoss": "home"
+    "winDrawLoss": "home",
+    "lambdaHome": 0.735,
+    "lambdaAway": 0.511,
+    "totalGoalsPrediction": "0-2球"
   },
   {
     "matchId": 1012,
@@ -321,7 +362,11 @@
     "probabilityA": 36,
     "probabilityB": 35,
     "probabilityC": 30,
-    "winDrawLoss": "away"
+    "winDrawLoss": "away",
+    "lambdaHome": 1.282,
+    "lambdaAway": 1.514,
+    "totalGoalsPrediction": "1-4球",
+    "totalGoalsDirectionCorrect": true
   },
   {
     "matchId": 1013,
@@ -342,13 +387,18 @@
         "hit": null
       }
     ],
-    "mRulesTriggered": ["M6"],
+    "mRulesTriggered": [
+      "M6"
+    ],
     "notes": "v13模型：ELO差350，佛得角FIRST_TIMERS λaway底线1.0（v11规则）。关键：λA=1.0时P(A=0)=P(A=1)=e^-1≈36.8%，因此4-0与4-1等概率(7.2%)均高于3-0(7.0%)。predB从3-0改为4-1（概率略高）。西班牙λH≈4.1，Yamal+Pedri进攻体系全力运转，胜率93%+",
     "predictionC": "西班牙 3-0",
     "probabilityA": 35,
     "probabilityB": 34,
     "probabilityC": 26,
-    "winDrawLoss": "home"
+    "winDrawLoss": "home",
+    "lambdaHome": 3.4,
+    "lambdaAway": 1,
+    "totalGoalsPrediction": "3-6球"
   },
   {
     "matchId": 1014,
@@ -362,13 +412,18 @@
     "directionCorrect": null,
     "exactHit": null,
     "bettingValues": [],
-    "mRulesTriggered": ["M9"],
+    "mRulesTriggered": [
+      "M9"
+    ],
     "notes": "v14模型（M9触发）：ELO差170≥80，M9规则将DEFENSIVE_TEAMS惩罚从×0.85减至×0.92；比利时attackBoost+0.12（热身5-0突尼斯验证）。重新计算：λHome=1.371（原1.106），Poisson Top3：比利时1-0(15.3%)、平局1-1(12.6%)、平局0-0(11.2%)。predB从比利时2-0改为平局1-1（12.6%>10.5%）。比利时德布劳内+卢卡uku+杜库三核心；萨拉赫定点反击是埃及追平威胁，1-1平局概率仅次于1-0",
     "predictionC": "比利时 2-0",
     "probabilityA": 40,
     "probabilityB": 31,
     "probabilityC": 29,
-    "winDrawLoss": "home"
+    "winDrawLoss": "home",
+    "lambdaHome": 1.371,
+    "lambdaAway": 0.82,
+    "totalGoalsPrediction": "1-3球"
   },
   {
     "matchId": 1015,
@@ -390,14 +445,18 @@
       }
     ],
     "mRulesTriggered": [
-      "M2", "M8a"
+      "M2",
+      "M8a"
     ],
     "notes": "v13模型（M8a触发）：ELO差135（<150），乌拉圭DEFENSIVE体系，drawProb=29%（M8a底线29%，刚好贴近）。Poisson Top3：沙特0-1(20%)、平局0-0(16%)、沙特0-2(12%)。predB从1-2改为平局0-0（16%vs原1-2的7%），predC从1-1改为0-2（12%vs原1-1的12%，但方向更一致）。乌拉圭整体优势但双防守体系→低进球，Under 2.5仍为最佳博彩",
     "predictionC": "沙特 0-2",
     "probabilityA": 40,
     "probabilityB": 33,
     "probabilityC": 27,
-    "winDrawLoss": "away"
+    "winDrawLoss": "away",
+    "lambdaHome": 0.381,
+    "lambdaAway": 1.12,
+    "totalGoalsPrediction": "0-2球"
   },
   {
     "matchId": 1016,
@@ -426,7 +485,10 @@
     "probabilityA": 35,
     "probabilityB": 34,
     "probabilityC": 31,
-    "winDrawLoss": "home"
+    "winDrawLoss": "home",
+    "lambdaHome": 1.625,
+    "lambdaAway": 0.812,
+    "totalGoalsPrediction": "1-3球"
   },
   {
     "matchId": 1017,
@@ -455,7 +517,10 @@
     "probabilityA": 37,
     "probabilityB": 36,
     "probabilityC": 27,
-    "winDrawLoss": "home"
+    "winDrawLoss": "home",
+    "lambdaHome": 1.025,
+    "lambdaAway": 0.72,
+    "totalGoalsPrediction": "0-2球"
   },
   {
     "matchId": 1018,
@@ -469,13 +534,18 @@
     "directionCorrect": null,
     "exactHit": null,
     "bettingValues": [],
-    "mRulesTriggered": ["M8a"],
+    "mRulesTriggered": [
+      "M8a"
+    ],
     "notes": "M8a触发：ELO差仅50（伊朗1760 vs 新西兰1710），drawProb=33%≈伊朗胜38%。predB改为平局1-1（M8a规则：ELO<100时平局底线33%，接近胜率，不能忽视）。新西兰虽弱但防守工事完整，伊朗进攻历来保守，1-1是现实结果。predC保留伊朗大胜场景以防锁定胜局。",
     "predictionC": "伊朗 2-0",
     "probabilityA": 38,
     "probabilityB": 33,
     "probabilityC": 29,
-    "winDrawLoss": "home"
+    "winDrawLoss": "home",
+    "lambdaHome": 1.294,
+    "lambdaAway": 0.285,
+    "totalGoalsPrediction": "0-2球"
   },
   {
     "matchId": 1019,
@@ -502,7 +572,10 @@
     "probabilityA": 37,
     "probabilityB": 32,
     "probabilityC": 31,
-    "winDrawLoss": "home"
+    "winDrawLoss": "home",
+    "lambdaHome": 1.963,
+    "lambdaAway": 0.771,
+    "totalGoalsPrediction": "1-4球"
   },
   {
     "matchId": 1020,
@@ -523,13 +596,18 @@
         "hit": null
       }
     ],
-    "mRulesTriggered": ["M6"],
+    "mRulesTriggered": [
+      "M6"
+    ],
     "notes": "v10模型：刚果DR首届参赛λaway底线0.55，进球概率≈37%。葡萄牙进攻强劲(λ≈4.5)，但B/C预测纳入刚果DR进球。ELO差306，葡萄牙胜概率82%。",
     "predictionC": "葡萄牙 3-1",
     "probabilityA": 33,
     "probabilityB": 30,
     "probabilityC": 27,
-    "winDrawLoss": "home"
+    "winDrawLoss": "home",
+    "lambdaHome": 3.625,
+    "lambdaAway": 1,
+    "totalGoalsPrediction": "3-6球"
   },
   {
     "matchId": 1021,
@@ -550,7 +628,10 @@
     "probabilityA": 34,
     "probabilityB": 33,
     "probabilityC": 32,
-    "winDrawLoss": "home"
+    "winDrawLoss": "home",
+    "lambdaHome": 2.281,
+    "lambdaAway": 0.528,
+    "totalGoalsPrediction": "1-4球"
   },
   {
     "matchId": 1022,
@@ -571,7 +652,10 @@
     "probabilityA": 38,
     "probabilityB": 36,
     "probabilityC": 26,
-    "winDrawLoss": "home"
+    "winDrawLoss": "home",
+    "lambdaHome": 2.124,
+    "lambdaAway": 0.409,
+    "totalGoalsPrediction": "1-3球"
   },
   {
     "matchId": 1023,
@@ -592,7 +676,10 @@
     "probabilityA": 35,
     "probabilityB": 35,
     "probabilityC": 30,
-    "winDrawLoss": "home"
+    "winDrawLoss": "home",
+    "lambdaHome": 1.976,
+    "lambdaAway": 0.596,
+    "totalGoalsPrediction": "1-3球"
   },
   {
     "matchId": 1024,
@@ -613,6 +700,9 @@
     "probabilityA": 35,
     "probabilityB": 34,
     "probabilityC": 31,
-    "winDrawLoss": "home"
+    "winDrawLoss": "home",
+    "lambdaHome": 1.456,
+    "lambdaAway": 0.536,
+    "totalGoalsPrediction": "1-3球"
   }
 ]
