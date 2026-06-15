@@ -233,15 +233,16 @@
     "kickoff": "2026-06-14T23:00:00Z",
     "predictionA": "科特迪瓦 1-1",
     "predictionB": "科特迪瓦 0-1",
-    "actualScore": null,
-    "directionCorrect": null,
-    "exactHit": null,
+    "actualScore": "0-0",
+    "directionCorrect": true,
+    "exactHit": false,
+    "totalGoalsDirectionCorrect": false,
     "bettingValues": [
       {
         "stars": 3,
         "name": "平局",
         "odds": "+180",
-        "hit": null
+        "hit": true
       }
     ],
     "mRulesTriggered": [
@@ -256,7 +257,7 @@
       "🟡 厄瓜多尔瓦伦西亚(队长/前锋)：小伤存疑但预期可上场",
       "✅ 厄瓜多尔：2年不败，防守体系成熟稳健"
     ],
-    "notes": "哈勒未入大名单是本场最大变量——主前锋缺席降低科特迪瓦临门一脚威胁。厄瓜多尔瓦伦西亚预计出战，2年不败防守稳健。平局仍是首选但predB改为厄瓜多尔客胜（哈勒缺席使科特迪瓦难以进球）",
+    "notes": "终场0-0！平局命中（winDrawLoss=draw ✅）。双方防线极度稳固，厄瓜多尔边柱两次遇险（John Yeboah+Alan Minda均中横梁）。哈勒缺席+厄瓜多尔19场不败→进球率为0，完全验证M2防守体系预判。总进球0球超出预测区间1-2，totalGoalsDirectionCorrect=false。平局+180博彩价值命中✅",
     "predictionC": "科特迪瓦 1-0",
     "probabilityA": 35,
     "probabilityB": 33,
