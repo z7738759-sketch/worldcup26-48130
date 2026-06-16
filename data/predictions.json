@@ -572,14 +572,15 @@
     "kickoff": "2026-06-16T01:00:00Z",
     "predictionA": "伊朗 1-0",
     "predictionB": "伊朗 2-0",
-    "actualScore": null,
-    "directionCorrect": null,
-    "exactHit": null,
+    "actualScore": "2-2",
+    "directionCorrect": false,
+    "exactHit": false,
+    "totalGoalsDirectionCorrect": false,
     "bettingValues": [],
     "mRulesTriggered": [
       "M8a"
     ],
-    "notes": "M8a触发：ELO差仅50（伊朗1760 vs 新西兰1710），drawProb=33%≈伊朗胜38%。predB改为平局1-1（M8a规则：ELO<100时平局底线33%，接近胜率，不能忽视）。新西兰虽弱但防守工事完整，伊朗进攻历来保守，1-1是现实结果。predC保留伊朗大胜场景以防锁定胜局。",
+    "notes": "M8a触发：ELO差仅50（伊朗1760 vs 新西兰1710），drawProb=33%≈伊朗胜38%。predB改为平局1-1（M8a规则：ELO<100时平局底线33%，接近胜率，不能忽视）。新西兰虽弱但防守工事完整，伊朗进攻历来保守，1-1是现实结果。predC保留伊朗大胜场景以防锁定胜局。终场2-2：方向错误（预测主队胜），ELO差50平局强触发M8a，新西兰两次追平。教训：ELO差<80时平局概率≥33%必须进B预测。",
     "predictionC": "平局 0-0",
     "probabilityA": 41,
     "probabilityB": 29,
@@ -587,11 +588,7 @@
     "winDrawLoss": "home",
     "lambdaHome": 1.423,
     "lambdaAway": 0.285,
-    "totalGoalsPrediction": "1球",
-    "actualScore": "2-2",
-    "directionCorrect": false,
-    "exactHit": false,
-    "totalGoalsDirectionCorrect": false
+    "totalGoalsPrediction": "1球"
   },
   {
     "matchId": 1019,
