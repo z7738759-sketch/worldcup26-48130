@@ -530,7 +530,14 @@
     "winDrawLoss": "home",
     "lambdaHome": 1.788,
     "lambdaAway": 0.812,
-    "totalGoalsPrediction": "1球"
+    "totalGoalsPrediction": "1球",
+    "upsetAlert": {
+      "possible": true,
+      "underdog": "塞内加尔",
+      "factors": ["球员", "历史H2H"],
+      "referenceScore": "塞内加尔 1-0",
+      "logic": "马内（34岁）在大赛中的单次爆发力不可低估——2022非洲杯决赛他带领塞内加尔捧杯，大赛经验极为丰富。塞内加尔库利巴利防线扎实，擅长低位5-4-1阵型打定点反击。法国姆巴佩若首场保持惯常的等待节奏，塞内加尔一旦先进球可能拖入防守反击泥潭。此概率约15-18%，不低但远非主流场景。"
+    }
   },
   {
     "matchId": 1017,
@@ -562,7 +569,14 @@
     "winDrawLoss": "home",
     "lambdaHome": 1.127,
     "lambdaAway": 0.72,
-    "totalGoalsPrediction": "1球"
+    "totalGoalsPrediction": "1球",
+    "upsetAlert": {
+      "possible": true,
+      "underdog": "克罗地亚",
+      "factors": ["历史H2H", "教练战术", "资本异动"],
+      "referenceScore": "克罗地亚 1-0",
+      "logic": "2018年世界杯半决赛克罗地亚2-1逆转英格兰，Modric（38岁）拥有大赛最高级别的执行经验。英格兰世界杯首场历来保守（2018/2022均如此），克罗地亚5-3-2低位防守可有效压制Bellingham+Saka体系。若Sharp资金有异动流向克罗地亚+270平局方向，意味着庄家感知到真实爆冷风险。克罗地亚拿下1分甚至3分概率被市场低估。"
+    }
   },
   {
     "matchId": 1018,
@@ -617,7 +631,14 @@
     "winDrawLoss": "home",
     "lambdaHome": 2.159,
     "lambdaAway": 0.771,
-    "totalGoalsPrediction": "2球"
+    "totalGoalsPrediction": "2球",
+    "upsetAlert": {
+      "possible": true,
+      "underdog": "阿尔及利亚",
+      "factors": ["战术", "球员"],
+      "referenceScore": "阿尔及利亚 1-0",
+      "logic": "阿尔及利亚Bennacer（AC Milan核心后腰）+Atal（防守右路锁链）构建了非洲最严密的中场防线之一。若阿尔及利亚采用极端低位防守5-4-1、利用定点球得分（Belaili/Mahrez级别球员），并在梅西体能管理轮换节点打反击，有能力造成平局甚至更多。历史教训：2022年卡塔尔，Cameroon 1-0 Brazil——大赛中弱队低位防守+定点球打爆强队并非天方夜谭。概率约12%，但赔率可能在+1200附近，期望值存在。"
+    }
   },
   {
     "matchId": 1020,

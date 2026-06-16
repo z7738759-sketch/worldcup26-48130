@@ -93,6 +93,38 @@ export default async function MatchDetailPage({ params }: { params: Promise<{ id
         </div>
       </div>
 
+      {/* 爆冷预警（仅未开赛且有风险时显示） */}
+      {!p.actualScore && p.upsetAlert?.possible && (
+        <div style={{
+          background: 'linear-gradient(135deg, #1a0a00, #2d1500)',
+          border: '1px solid #f97316',
+          borderRadius: 16,
+          padding: 'clamp(14px, 2vw, 20px)',
+          marginBottom: 20,
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
+            <span style={{ fontSize: 18 }}>⚡</span>
+            <span style={{ fontSize: 13, color: '#f97316', fontWeight: 800, letterSpacing: '1px' }}>爆冷预警</span>
+            <span style={{ fontSize: 11, color: '#6b7f96', marginLeft: 4 }}>参考场景，不列入正式预测</span>
+          </div>
+          <div style={{ fontSize: 13, color: '#fed7aa', lineHeight: 1.8, marginBottom: 10 }}>
+            <span style={{ color: '#f97316', fontWeight: 700 }}>{p.upsetAlert.underdog}</span> 存在爆冷可能
+          </div>
+          <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 10 }}>
+            {p.upsetAlert.factors.map(f => (
+              <span key={f} style={{ fontSize: 11, color: '#f97316', background: '#2d1500', border: '1px solid #f9731640', padding: '2px 8px', borderRadius: 9999, fontWeight: 600 }}>{f}</span>
+            ))}
+          </div>
+          <div style={{ fontSize: 12, color: '#8899aa', lineHeight: 1.7, marginBottom: 10 }}>
+            {p.upsetAlert.logic}
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <span style={{ fontSize: 11, color: '#6b7f96' }}>爆冷参考比分：</span>
+            <span style={{ fontSize: 15, color: '#f97316', fontWeight: 900, letterSpacing: '1px' }}>{p.upsetAlert.referenceScore}</span>
+          </div>
+        </div>
+      )}
+
       {/* 实时消息（该场比赛相关） */}
       <LiveNews matchId={matchId} />
 

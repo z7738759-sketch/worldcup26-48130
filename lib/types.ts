@@ -81,4 +81,11 @@ export interface Prediction {
   notes: string
   updatedPrediction?: PredictionUpdate
   teamNews?: string[]
+  upsetAlert?: {
+    possible: boolean
+    underdog: string
+    factors: string[]       // "资本异动" | "伤病" | "教练" | "历史H2H" | "战术" | "首届参赛"
+    referenceScore: string  // 仅供参考，不列入正式预测
+    logic: string           // 爆冷逻辑说明
+  }
 }
