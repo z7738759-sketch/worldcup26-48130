@@ -78,18 +78,33 @@ export default function AccuracyPage() {
                 })()}
                 {(() => {
                   if (!p.actualScore || !p.predictionA) return null
-                  const predTotal = parsePredGoals(p.predictionA)
-                  if (predTotal === null) return null
+                  const predTotalA = parsePredGoals(p.predictionA)
+                  const predTotalB = p.predictionB ? parsePredGoals(p.predictionB) : null
+                  if (predTotalA === null) return null
                   const [hg, ag] = p.actualScore.split('-').map(Number)
-                  const hit = (hg + ag) === predTotal
+                  const actualTotal = hg + ag
+                  const hitA = actualTotal === predTotalA
+                  const hitB = predTotalB !== null && predTotalB !== predTotalA && actualTotal === predTotalB
+                  const showB = predTotalB !== null && predTotalB !== predTotalA
                   return (
-                    <span style={{
-                      fontSize: 11, fontWeight: 700, padding: '3px 10px', borderRadius: 9999, flexShrink: 0,
-                      background: hit ? '#1a2d45' : '#3d1f1f',
-                      color: hit ? '#f5a623' : '#6b7f96',
-                    }}>
-                      ⚽ {predTotal}球 {hit ? '✅' : '❌'}
-                    </span>
+                    <>
+                      <span style={{
+                        fontSize: 11, fontWeight: 700, padding: '3px 10px', borderRadius: 9999, flexShrink: 0,
+                        background: hitA ? '#1a2d45' : '#3d1f1f',
+                        color: hitA ? '#f5a623' : '#6b7f96',
+                      }}>
+                        ⚽A {predTotalA}球 {hitA ? '✅' : '❌'}
+                      </span>
+                      {showB && (
+                        <span style={{
+                          fontSize: 11, fontWeight: 700, padding: '3px 10px', borderRadius: 9999, flexShrink: 0,
+                          background: hitB ? '#1a2d45' : '#3d1f1f',
+                          color: hitB ? '#a78bfa' : '#6b7f96',
+                        }}>
+                          ⚽B {predTotalB}球 {hitB ? '✅' : '❌'}
+                        </span>
+                      )}
+                    </>
                   )
                 })()}
               </div>

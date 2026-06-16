@@ -79,13 +79,31 @@ export function getAccuracyStats() {
     return `${m[1]}-${m[2]}` === p.actualScore
   }).length
 
-  // 总进球：从 predictionA 动态推导，不依赖任何存储字段
+  // 总进球A：从 predictionA 动态推导
   const totalGoalsHits = finished.filter(p => {
     if (!p.actualScore || !p.predictionA) return false
     const predTotal = parsePredGoals(p.predictionA)
     if (predTotal === null) return false
     const [hg, ag] = p.actualScore.split('-').map(Number)
     return (hg + ag) === predTotal
+  }).length
+
+  // 总进球B：从 predictionB 动态推导（B与A不同时才单独统计）
+  const totalGoalsBHits = finished.filter(p => {
+    if (!p.actualScore || !p.predictionB) return false
+    const predTotalA = parsePredGoals(p.predictionA)
+    const predTotalB = parsePredGoals(p.predictionB)
+    if (predTotalB === null || predTotalB === predTotalA) return false
+    const [hg, ag] = p.actualScore.split('-').map(Number)
+    return (hg + ag) === predTotalB
+  }).length
+
+  // B与A总进球不同的场次数
+  const totalGoalsBTotal = finished.filter(p => {
+    if (!p.predictionA || !p.predictionB) return false
+    const a = parsePredGoals(p.predictionA)
+    const b = parsePredGoals(p.predictionB)
+    return b !== null && b !== a
   }).length
 
   return {
@@ -96,6 +114,9 @@ export function getAccuracyStats() {
     scoreExactRate: total ? Math.round((scoreExactHits / total) * 100) : 0,
     totalGoalsHits,
     totalGoalsRate: total ? Math.round((totalGoalsHits / total) * 100) : 0,
+    totalGoalsBHits,
+    totalGoalsBTotal,
+    totalGoalsBRate: totalGoalsBTotal ? Math.round((totalGoalsBHits / totalGoalsBTotal) * 100) : 0,
   }
 }
 
