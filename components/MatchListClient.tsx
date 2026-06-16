@@ -24,6 +24,7 @@ interface Prediction {
   drawPct: number
   awayWinPct: number
   totalGoalsA: number
+  totalGoalsB: number | null
 }
 
 interface LiveScore {
@@ -311,7 +312,11 @@ export default function MatchListClient({ predictions }: { predictions: Predicti
                     ))}
                   </div>
                   <div style={{ textAlign: 'center', fontSize: 12, color: '#3d5470', marginBottom: 10 }}>
-                    ⚽ 预测进球：<span style={{ color: '#f5a623', fontWeight: 700 }}>{p.totalGoalsA}球</span>
+                    ⚽ 预测进球：
+                    <span style={{ color: '#f5a623', fontWeight: 700 }}>A:{p.totalGoalsA}球</span>
+                    {p.totalGoalsB !== null && p.totalGoalsB !== p.totalGoalsA && (
+                      <span style={{ color: '#60a5fa', fontWeight: 700 }}> / B:{p.totalGoalsB}球</span>
+                    )}
                   </div>
                   {(() => {
                     const dl = dirLabel(p.winDrawLoss, p.homeTeam, p.awayTeam)
@@ -392,6 +397,21 @@ export default function MatchListClient({ predictions }: { predictions: Predicti
                       <span style={{ fontSize: 10, color: '#3d5470', background: '#070f1a', padding: '1px 5px', borderRadius: 4 }}>⚡ESPN</span>
                     )}
                     <span style={{ marginLeft: 'auto', fontSize: 12, flexShrink: 0, display: 'flex', alignItems: 'center', gap: 6 }}>
+                      {/* 总进球：A球/B球 → 实际X球 命中标记 */}
+                      {ds.score !== null && (() => {
+                        const actualTotal = ds.homeScore + ds.awayScore
+                        const hitA = actualTotal === p.totalGoalsA
+                        const hitB = p.totalGoalsB !== null && actualTotal === p.totalGoalsB
+                        const showB = p.totalGoalsB !== null && p.totalGoalsB !== p.totalGoalsA
+                        return (
+                          <span style={{ color: '#3d5470', fontSize: 11 }}>
+                            ⚽<span style={{ color: '#f5a623' }}>{p.totalGoalsA}</span>
+                            {showB && <span style={{ color: '#60a5fa' }}>/{p.totalGoalsB}</span>}
+                            球→{actualTotal}球
+                            {(hitA || hitB) ? <span style={{ color: '#4ade80' }}>✅</span> : <span style={{ color: '#ef4444' }}>❌</span>}
+                          </span>
+                        )
+                      })()}
                       {(() => {
                         const dl = dirLabel(p.winDrawLoss, p.homeTeam, p.awayTeam)
                         return (

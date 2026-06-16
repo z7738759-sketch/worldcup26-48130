@@ -84,9 +84,11 @@ export default async function MatchDetailPage({ params }: { params: Promise<{ id
           <PredChip label={`C · ${p.probabilityC}%`} value={p.predictionC} color="#a78bfa" />
           <PredChip
             label="总进球预测"
-            value={p.actualScore
-              ? `${parsePredGoals(p.predictionA) ?? model.totalGoalsA}球`
-              : `${model.totalGoalsA}~${model.totalGoalsB}球`}
+            value={(() => {
+              const a = parsePredGoals(p.predictionA) ?? model.totalGoalsA
+              const b = p.predictionB ? parsePredGoals(p.predictionB) : null
+              return b !== null && b !== a ? `A:${a}球 / B:${b}球` : `${a}球`
+            })()}
             color="#cdd9e5"
           />
           {p.actualScore && <PredChip label="实际结果" value={p.actualScore} color="#4ade80" />}
@@ -231,11 +233,12 @@ export default async function MatchDetailPage({ params }: { params: Promise<{ id
             }
             {model.drawPct >= 33 && ' 平局概率偏高，值得特别关注。'}
             {(() => {
-              const displayGoals = p.actualScore ? (parsePredGoals(p.predictionA) ?? model.totalGoalsA) : model.totalGoalsA
-              const goalsText = p.actualScore
-                ? `总进球预测${displayGoals}球。`
-                : `总进球预测${model.totalGoalsA}~${model.totalGoalsB}球，${model.totalGoalsA >= 3 ? '偏向大球方向' : (model.totalGoalsB ?? 0) <= 2 ? '偏向小球方向' : '进球数中等'}。`
-              return model.totalGoalsA !== undefined ? ` ${goalsText}` : null
+              const a = parsePredGoals(p.predictionA) ?? model.totalGoalsA
+              const b = p.predictionB ? parsePredGoals(p.predictionB) : null
+              const goalsText = b !== null && b !== a
+                ? `总进球预测A:${a}球/B:${b}球。`
+                : `总进球预测${a}球。`
+              return ` ${goalsText}`
             })()}
           </div>
         </div>
