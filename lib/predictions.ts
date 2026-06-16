@@ -71,15 +71,12 @@ export function getAccuracyStats() {
     return p.winDrawLoss === actual
   }).length
 
-  // 比分类：A/B/C任一精确匹配
+  // 比分类：仅判断 predictionA 是否精确命中（A是正式主预测）
   const scoreExactHits = finished.filter(p => {
-    if (!p.actualScore) return false
-    return [p.predictionA, p.predictionB, p.predictionC].some(pred => {
-      if (!pred) return false
-      const m = pred.match(/(\d+)\s*[-–—]\s*(\d+)/)
-      if (!m) return false
-      return `${m[1]}-${m[2]}` === p.actualScore
-    })
+    if (!p.actualScore || !p.predictionA) return false
+    const m = p.predictionA.match(/(\d+)\s*[-–—]\s*(\d+)/)
+    if (!m) return false
+    return `${m[1]}-${m[2]}` === p.actualScore
   }).length
 
   // 总进球：从 predictionA 动态推导，不依赖任何存储字段

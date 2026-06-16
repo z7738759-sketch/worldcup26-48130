@@ -24,8 +24,13 @@ function makeSummary(p: ReturnType<typeof getAllPredictions>[0]): string {
   return `方向错误，实际 ${p.actualScore}`
 }
 
-function hitBadge(p: { directionCorrect: boolean | null; exactHit: boolean | null }) {
-  if (p.exactHit) {
+function hitBadge(p: { directionCorrect: boolean | null; predictionA: string | null; actualScore: string | null }) {
+  const predAExact = (() => {
+    if (!p.predictionA || !p.actualScore) return false
+    const m = p.predictionA.match(/(\d+)\s*[-–—]\s*(\d+)/)
+    return m ? `${m[1]}-${m[2]}` === p.actualScore : false
+  })()
+  if (predAExact) {
     return <span style={{ background: '#14532d', color: '#4ade80', fontSize: 12, fontWeight: 700, padding: '2px 10px', borderRadius: 9999, flexShrink: 0 }}>🎯 命中</span>
   }
   if (p.directionCorrect) {
@@ -134,7 +139,7 @@ export default function HomePage() {
                           🕐 {kickoffBeijing}
                         </span>
                       </div>
-                      {hitBadge(p)}
+                      {hitBadge({ directionCorrect: p.directionCorrect, predictionA: p.predictionA, actualScore: p.actualScore })}
                     </div>
 
                     {/* 两队 + 比分 */}

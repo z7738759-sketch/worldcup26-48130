@@ -60,13 +60,22 @@ export default function AccuracyPage() {
                 <div style={{ fontSize: 11, color: '#6b7f96', marginTop: 4 }}>{p.notes}</div>
               </div>
               <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
-                <span style={{
-                  fontSize: 11, fontWeight: 700, padding: '3px 10px', borderRadius: 9999, flexShrink: 0,
-                  background: p.exactHit ? '#14532d' : p.directionCorrect ? '#1a2d45' : '#7f1d1d',
-                  color: p.exactHit ? '#4ade80' : p.directionCorrect ? '#60a5fa' : '#ef4444',
-                }}>
-                  比分{p.exactHit ? '🎯' : p.directionCorrect ? '✅' : '❌'}
-                </span>
+                {(() => {
+                  const predAExact = (() => {
+                    if (!p.predictionA || !p.actualScore) return false
+                    const m = p.predictionA.match(/(\d+)\s*[-–—]\s*(\d+)/)
+                    return m ? `${m[1]}-${m[2]}` === p.actualScore : false
+                  })()
+                  return (
+                    <span style={{
+                      fontSize: 11, fontWeight: 700, padding: '3px 10px', borderRadius: 9999, flexShrink: 0,
+                      background: predAExact ? '#14532d' : p.directionCorrect ? '#1a2d45' : '#7f1d1d',
+                      color: predAExact ? '#4ade80' : p.directionCorrect ? '#60a5fa' : '#ef4444',
+                    }}>
+                      比分{predAExact ? '🎯' : p.directionCorrect ? '✅' : '❌'}
+                    </span>
+                  )
+                })()}
                 {(() => {
                   if (!p.actualScore || !p.predictionA) return null
                   const predTotal = parsePredGoals(p.predictionA)
