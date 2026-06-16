@@ -86,25 +86,15 @@ export default function AccuracyPage() {
                   const hitA = actualTotal === predTotalA
                   const hitB = predTotalB !== null && predTotalB !== predTotalA && actualTotal === predTotalB
                   const showB = predTotalB !== null && predTotalB !== predTotalA
+                  const hit = hitA || hitB
                   return (
-                    <>
-                      <span style={{
-                        fontSize: 11, fontWeight: 700, padding: '3px 10px', borderRadius: 9999, flexShrink: 0,
-                        background: hitA ? '#1a2d45' : '#3d1f1f',
-                        color: hitA ? '#f5a623' : '#6b7f96',
-                      }}>
-                        ⚽A {predTotalA}球 {hitA ? '✅' : '❌'}
-                      </span>
-                      {showB && (
-                        <span style={{
-                          fontSize: 11, fontWeight: 700, padding: '3px 10px', borderRadius: 9999, flexShrink: 0,
-                          background: hitB ? '#1a2d45' : '#3d1f1f',
-                          color: hitB ? '#a78bfa' : '#6b7f96',
-                        }}>
-                          ⚽B {predTotalB}球 {hitB ? '✅' : '❌'}
-                        </span>
-                      )}
-                    </>
+                    <span style={{
+                      fontSize: 11, fontWeight: 700, padding: '3px 10px', borderRadius: 9999, flexShrink: 0,
+                      background: hit ? '#1a2d45' : '#3d1f1f',
+                      color: hit ? '#f5a623' : '#6b7f96',
+                    }}>
+                      ⚽ {predTotalA}球{showB ? `/${predTotalB}球` : ''} {hit ? '✅' : '❌'}
+                    </span>
                   )
                 })()}
               </div>

@@ -78,17 +78,11 @@ export default function HomePage() {
           <div style={{ fontSize: 'clamp(28px, 5vw, 40px)', fontWeight: 900, color: '#4ade80' }}>{stats.scoreExactRate}%</div>
           <div style={{ fontSize: 11, color: '#6b7f96', marginTop: 4 }}>{stats.scoreExactHits}/{stats.total} 场</div>
         </div>
-        {/* 总进球A */}
+        {/* 总进球（A或B任一命中） */}
         <div style={{ background: 'linear-gradient(135deg, #0d1b2a, #111f30)', border: '1px solid #f5a623', borderRadius: 16, padding: 'clamp(12px, 2vw, 20px)', textAlign: 'center' }}>
-          <div style={{ fontSize: 11, color: '#f5a623', fontWeight: 700, letterSpacing: '1px', marginBottom: 6 }}>⚽ 总进球A命中率</div>
+          <div style={{ fontSize: 11, color: '#f5a623', fontWeight: 700, letterSpacing: '1px', marginBottom: 6 }}>⚽ 总进球命中率</div>
           <div style={{ fontSize: 'clamp(28px, 5vw, 40px)', fontWeight: 900, color: '#f5a623' }}>{stats.totalGoalsRate}%</div>
           <div style={{ fontSize: 11, color: '#6b7f96', marginTop: 4 }}>{stats.totalGoalsHits}/{stats.total} 场</div>
-        </div>
-        {/* 总进球B（仅统计B与A不同的场次） */}
-        <div style={{ background: 'linear-gradient(135deg, #0d1b2a, #111f30)', border: '1px solid #a78bfa', borderRadius: 16, padding: 'clamp(12px, 2vw, 20px)', textAlign: 'center' }}>
-          <div style={{ fontSize: 11, color: '#a78bfa', fontWeight: 700, letterSpacing: '1px', marginBottom: 6 }}>⚽ 总进球B命中率</div>
-          <div style={{ fontSize: 'clamp(28px, 5vw, 40px)', fontWeight: 900, color: '#a78bfa' }}>{stats.totalGoalsBRate}%</div>
-          <div style={{ fontSize: 11, color: '#6b7f96', marginTop: 4 }}>{stats.totalGoalsBHits}/{stats.totalGoalsBTotal} 场(A≠B)</div>
         </div>
         <div style={{ background: 'linear-gradient(135deg, #0d1b2a, #111f30)', border: '1px solid #60a5fa', borderRadius: 16, padding: 'clamp(12px, 2vw, 20px)', textAlign: 'center' }}>
           <div style={{ fontSize: 11, color: '#60a5fa', fontWeight: 700, letterSpacing: '1px', marginBottom: 6 }}>🧠 已分析</div>
@@ -195,16 +189,14 @@ export default function HomePage() {
                         <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap', fontSize: 'clamp(10px, 1.3vw, 12px)', marginTop: 8, paddingTop: 8, borderTop: '1px dashed #1e3a5f' }}>
                           <span style={{ color: '#6b7f96' }}>⚽ 总进球</span>
                           <span style={{ color: '#f5a623', fontWeight: 700 }}>A:{predTotalA}球</span>
-                          <span style={{ color: hitA ? '#4ade80' : '#6b7f96' }}>{hitA ? '✅' : '❌'}</span>
                           {predTotalB !== null && predTotalB !== predTotalA && (
                             <>
                               <span style={{ color: '#3d5470' }}>/</span>
                               <span style={{ color: '#60a5fa', fontWeight: 700 }}>B:{predTotalB}球</span>
-                              <span style={{ color: hitB ? '#4ade80' : '#6b7f96' }}>{hitB ? '✅' : '❌'}</span>
                             </>
                           )}
                           <span style={{ color: '#3d5470' }}>→ 实际</span>
-                          <strong style={{ color: (hitA || hitB) ? '#4ade80' : '#ef4444' }}>{actualTotal}球</strong>
+                          <strong style={{ color: (hitA || hitB) ? '#4ade80' : '#ef4444' }}>{actualTotal}球 {(hitA || hitB) ? '✅' : '❌'}</strong>
                         </div>
                       )
                     })()}
