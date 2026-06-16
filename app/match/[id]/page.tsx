@@ -84,11 +84,9 @@ export default async function MatchDetailPage({ params }: { params: Promise<{ id
           <PredChip label={`C · ${p.probabilityC}%`} value={p.predictionC} color="#a78bfa" />
           <PredChip
             label="总进球预测"
-            value={(() => {
-              const a = parsePredGoals(p.predictionA) ?? model.totalGoalsA
-              const b = p.predictionB ? parsePredGoals(p.predictionB) : null
-              return b !== null && b !== a ? `A:${a}球 / B:${b}球` : `${a}球`
-            })()}
+            value={model.totalGoalsB !== undefined && model.totalGoalsB !== model.totalGoalsA
+              ? `A:${model.totalGoalsA}球 / B:${model.totalGoalsB}球`
+              : `${model.totalGoalsA}球`}
             color="#cdd9e5"
           />
           {p.actualScore && <PredChip label="实际结果" value={p.actualScore} color="#4ade80" />}
@@ -232,14 +230,7 @@ export default async function MatchDetailPage({ params }: { params: Promise<{ id
                 : `${p.awayTeam}实力占优（+${Math.abs(eloDiff)}分），但优势${Math.abs(eloDiff) > 200 ? '显著' : '有限'}。`
             }
             {model.drawPct >= 33 && ' 平局概率偏高，值得特别关注。'}
-            {(() => {
-              const a = parsePredGoals(p.predictionA) ?? model.totalGoalsA
-              const b = p.predictionB ? parsePredGoals(p.predictionB) : null
-              const goalsText = b !== null && b !== a
-                ? `总进球预测A:${a}球/B:${b}球。`
-                : `总进球预测${a}球。`
-              return ` ${goalsText}`
-            })()}
+            {model.totalGoalsA !== undefined && ` 总进球预测${model.totalGoalsB !== undefined && model.totalGoalsB !== model.totalGoalsA ? `A:${model.totalGoalsA}球/B:${model.totalGoalsB}球` : `${model.totalGoalsA}球`}。`}
           </div>
         </div>
       </div>

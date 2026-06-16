@@ -1,4 +1,4 @@
-import { getAllPredictions, parsePredGoals } from '@/lib/predictions'
+import { getAllPredictions } from '@/lib/predictions'
 import { computeModelOutput } from '@/lib/model'
 import MatchListClient from '@/components/MatchListClient'
 
@@ -14,9 +14,9 @@ export default function MatchListPage() {
       p.homeTeam, p.awayTeam, p.kickoff,
       { predictionA: p.predictionA, predictionB: p.predictionB }
     )
-    // 总进球从predA/predB字符串解析，与首页保持一致
-    const totalGoalsA = parsePredGoals(p.predictionA) ?? model.totalGoalsA
-    const totalGoalsB = p.predictionB ? (parsePredGoals(p.predictionB) ?? null) : null
+    // 总进球用泊松模型计算，不从分数字符串解析（避免保守偏差）
+    const totalGoalsA = model.totalGoalsA
+    const totalGoalsB = model.totalGoalsB
     return {
       matchId: p.matchId,
       homeTeam: p.homeTeam,

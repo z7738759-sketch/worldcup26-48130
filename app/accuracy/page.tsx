@@ -1,4 +1,5 @@
-import { getAllPredictions, getAccuracyStats, parsePredGoals } from '@/lib/predictions'
+import { getAllPredictions, getAccuracyStats } from '@/lib/predictions'
+import { computeModelOutput } from '@/lib/model'
 
 function StatCard({ value, label, color, sub }: { value: string; label: string; color: string; sub?: string }) {
   return (
@@ -77,15 +78,15 @@ export default function AccuracyPage() {
                   )
                 })()}
                 {(() => {
-                  if (!p.actualScore || !p.predictionA) return null
-                  const predTotalA = parsePredGoals(p.predictionA)
-                  const predTotalB = p.predictionB ? parsePredGoals(p.predictionB) : null
-                  if (predTotalA === null) return null
+                  if (!p.actualScore) return null
+                  const model = computeModelOutput(p.homeTeam, p.awayTeam, p.kickoff, {
+                    predictionA: p.predictionA, predictionB: p.predictionB
+                  })
                   const [hg, ag] = p.actualScore.split('-').map(Number)
                   const actualTotal = hg + ag
-                  const hitA = actualTotal === predTotalA
-                  const hitB = predTotalB !== null && predTotalB !== predTotalA && actualTotal === predTotalB
-                  const showB = predTotalB !== null && predTotalB !== predTotalA
+                  const hitA = actualTotal === model.totalGoalsA
+                  const hitB = actualTotal === model.totalGoalsB
+                  const showB = model.totalGoalsB !== model.totalGoalsA
                   const hit = hitA || hitB
                   return (
                     <span style={{
@@ -93,7 +94,7 @@ export default function AccuracyPage() {
                       background: hit ? '#1a2d45' : '#3d1f1f',
                       color: hit ? '#f5a623' : '#6b7f96',
                     }}>
-                      ⚽ {predTotalA}球{showB ? `/${predTotalB}球` : ''} {hit ? '✅' : '❌'}
+                      ⚽ {model.totalGoalsA}球{showB ? `/${model.totalGoalsB}球` : ''} {hit ? '✅' : '❌'}
                     </span>
                   )
                 })()}

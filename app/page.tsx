@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import { getAllPredictions, getAccuracyStats, parsePredGoals } from '@/lib/predictions'
+import { getAllPredictions, getAccuracyStats } from '@/lib/predictions'
+import { computeModelOutput } from '@/lib/model'
 import { getFlagUrl } from '@/lib/match-utils'
 
 export const revalidate = 60
@@ -175,24 +176,25 @@ export default function HomePage() {
                       <span style={{ fontWeight: 700, color: p.predictionC === p.actualScore ? '#4ade80' : '#8899aa', textDecoration: p.predictionC === p.actualScore ? 'none' : 'line-through' }}>{p.predictionC}</span>
                     </div>
 
-                    {/* 总进球对比：predictionA 和 predictionB 各自显示 */}
+                    {/* 总进球对比：泊松模型A/B两档 */}
                     {(() => {
-                      if (!p.actualScore || !p.predictionA) return null
-                      const predTotalA = parsePredGoals(p.predictionA)
-                      const predTotalB = p.predictionB ? parsePredGoals(p.predictionB) : null
-                      if (predTotalA === null) return null
+                      if (!p.actualScore) return null
+                      const model = computeModelOutput(p.homeTeam, p.awayTeam, p.kickoff, {
+                        predictionA: p.predictionA, predictionB: p.predictionB
+                      })
                       const [hg, ag] = p.actualScore.split('-').map(Number)
                       const actualTotal = hg + ag
-                      const hitA = actualTotal === predTotalA
-                      const hitB = predTotalB !== null && actualTotal === predTotalB
+                      const hitA = actualTotal === model.totalGoalsA
+                      const hitB = actualTotal === model.totalGoalsB
+                      const showB = model.totalGoalsB !== model.totalGoalsA
                       return (
                         <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap', fontSize: 'clamp(10px, 1.3vw, 12px)', marginTop: 8, paddingTop: 8, borderTop: '1px dashed #1e3a5f' }}>
                           <span style={{ color: '#6b7f96' }}>⚽ 总进球</span>
-                          <span style={{ color: '#f5a623', fontWeight: 700 }}>A:{predTotalA}球</span>
-                          {predTotalB !== null && predTotalB !== predTotalA && (
+                          <span style={{ color: '#f5a623', fontWeight: 700 }}>A:{model.totalGoalsA}球</span>
+                          {showB && (
                             <>
                               <span style={{ color: '#3d5470' }}>/</span>
-                              <span style={{ color: '#60a5fa', fontWeight: 700 }}>B:{predTotalB}球</span>
+                              <span style={{ color: '#60a5fa', fontWeight: 700 }}>B:{model.totalGoalsB}球</span>
                             </>
                           )}
                           <span style={{ color: '#3d5470' }}>→ 实际</span>

@@ -1,5 +1,6 @@
 import predictionsData from '@/data/predictions.json'
 import type { Prediction } from './types'
+import { computeModelOutput } from './model'
 
 export function getAllPredictions(): Prediction[] {
   return predictionsData as Prediction[]
@@ -79,14 +80,15 @@ export function getAccuracyStats() {
     return `${m[1]}-${m[2]}` === p.actualScore
   }).length
 
-  // 总进球：predA 或 predB 任一命中即算中
+  // 总进球：用泊松模型计算的A/B任一命中即算中（与分数字符串解析独立）
   const totalGoalsHits = finished.filter(p => {
-    if (!p.actualScore || !p.predictionA) return false
+    if (!p.actualScore) return false
     const [hg, ag] = p.actualScore.split('-').map(Number)
     const actualTotal = hg + ag
-    const predTotalA = parsePredGoals(p.predictionA)
-    const predTotalB = p.predictionB ? parsePredGoals(p.predictionB) : null
-    return actualTotal === predTotalA || (predTotalB !== null && actualTotal === predTotalB)
+    const model = computeModelOutput(p.homeTeam, p.awayTeam, p.kickoff, {
+      predictionA: p.predictionA, predictionB: p.predictionB
+    })
+    return actualTotal === model.totalGoalsA || actualTotal === model.totalGoalsB
   }).length
 
   return {
