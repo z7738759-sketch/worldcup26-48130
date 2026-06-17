@@ -600,10 +600,10 @@
     "kickoff": "2026-06-17T02:00:00Z",
     "predictionA": "阿根廷 2-0",
     "predictionB": "阿根廷 1-0",
-    "actualScore": "1-0",
+    "actualScore": "3-0",
     "directionCorrect": true,
     "exactHit": false,
-    "totalGoalsDirectionCorrect": false,
+    "totalGoalsDirectionCorrect": true,
     "bettingValues": [
       {
         "stars": 2,
@@ -613,7 +613,7 @@
       }
     ],
     "mRulesTriggered": [],
-    "notes": "阿根廷胜72%，-239是散户陷阱，2-0比分市场（+700）更有性价比。终场1-0：方向✅（预测主场胜），predB「阿根廷1-0」精确命中✅！predA「2-0」高估进球。梅西17分钟破门，阿尔及利亚低防体系守住1球。进球严重低估：λH=2.159但实际仅1球，阿尔及利亚防守超水平发挥。",
+    "notes": "阿根廷胜72%，-239是散户陷阱，2-0比分市场（+700）更有性价比。终场3-0：梅西帽子戏法（17'、60'、76'），方向✅（预测主场胜）。predA「2-0」、predB「1-0」、predC「2-1」均未精确命中（实际3-0）。totalGoals✅：模型totalGoalsB=3，实际3球命中。λH=2.159预测偏保守，第二球60'来迟，整体进球比预测偏高（Poisson众数=2球，实际3球=次高频率区间）。",
     "predictionC": "阿根廷 2-1",
     "probabilityA": 37,
     "probabilityB": 34,
