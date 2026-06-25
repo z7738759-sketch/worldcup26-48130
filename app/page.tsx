@@ -79,9 +79,9 @@ export default function HomePage() {
           <div style={{ fontSize: 'clamp(28px, 5vw, 40px)', fontWeight: 900, color: '#4ade80' }}>{stats.scoreExactRate}%</div>
           <div style={{ fontSize: 11, color: '#6b7f96', marginTop: 4 }}>{stats.scoreExactHits}/{stats.total} 场</div>
         </div>
-        {/* 总进球大小球方向 */}
+        {/* 总进球（A或B任一命中） */}
         <div style={{ background: 'linear-gradient(135deg, #0d1b2a, #111f30)', border: '1px solid #f5a623', borderRadius: 16, padding: 'clamp(12px, 2vw, 20px)', textAlign: 'center' }}>
-          <div style={{ fontSize: 11, color: '#f5a623', fontWeight: 700, letterSpacing: '1px', marginBottom: 6 }}>⚽ 大小球方向</div>
+          <div style={{ fontSize: 11, color: '#f5a623', fontWeight: 700, letterSpacing: '1px', marginBottom: 6 }}>⚽ 总进球命中率</div>
           <div style={{ fontSize: 'clamp(28px, 5vw, 40px)', fontWeight: 900, color: '#f5a623' }}>{stats.totalGoalsRate}%</div>
           <div style={{ fontSize: 11, color: '#6b7f96', marginTop: 4 }}>{stats.totalGoalsHits}/{stats.total} 场</div>
         </div>

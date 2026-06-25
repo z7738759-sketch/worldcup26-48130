@@ -35,10 +35,10 @@ export default function AccuracyPage() {
       {/* 总进球模块 */}
       <div className="mb-8">
         <h2 style={{ fontSize: 13, color: '#f5a623', letterSpacing: '2px', fontWeight: 700, marginBottom: 12 }}>
-          ⚽ 大小球方向（Over/Under 2.5）
+          ⚽ 总进球模块（独立运算）
         </h2>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: 12 }}>
-          <StatCard value={`${stats.totalGoalsRate}%`} label="大小球方向准确率" color="#f5a623" sub={`${stats.totalGoalsHits}/${stats.total} 场命中`} />
+          <StatCard value={`${stats.totalGoalsRate}%`} label="总进球命中率" color="#f5a623" sub={`${stats.totalGoalsHits}/${stats.total} 场命中`} />
           <StatCard value={`${stats.total}`} label="已核实场次" color="#60a5fa" sub="持续更新中" />
         </div>
       </div>

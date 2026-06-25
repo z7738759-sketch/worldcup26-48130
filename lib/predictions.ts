@@ -79,18 +79,35 @@ export function getAccuracyStats() {
     return `${m[1]}-${m[2]}` === p.actualScore
   }).length
 
-  // 总进球大小球方向：读 totalGoalsPrediction（v21多因子模型结果）
-  // ≥3球=预测Over 2.5，≤2球=预测Under 2.5；判断方向是否与实际一致
-  const totalGoalsHits = finished.filter(p => {
-    if (!p.actualScore || !p.totalGoalsPrediction) return false
-    const [hg, ag] = p.actualScore.split('-').map(Number)
-    const actualTotal = hg + ag
-    const m = (p.totalGoalsPrediction as string).match(/(\d+)/)
-    if (!m) return false
-    const predOver = parseInt(m[1]) > 2   // ≥3球=Over 2.5
-    const actualOver = actualTotal > 2.5
-    return predOver === actualOver
-  }).length
+  // 总进球：v21公式算两个预测值（A=最可能，B=次可能），任一命中即算中
+  // 公式：blended = 0.3×(λH+λA) + 0.7×队伍本届历史均值
+  // A = round(blended)，B = 相邻整数（blended>A ? A+1 : A-1）
+  const totalGoalsHits = (() => {
+    const teamGoals: Record<string, { sum: number; n: number }> = {}
+    finished.forEach(p => {
+      if (!p.actualScore) return
+      const [h, a] = p.actualScore.split('-').map(Number)
+      const tot = h + a
+      for (const t of [p.homeTeam, p.awayTeam]) {
+        if (!teamGoals[t]) teamGoals[t] = { sum: 0, n: 0 }
+        teamGoals[t].sum += tot
+        teamGoals[t].n++
+      }
+    })
+    const tAvg = (t: string) => teamGoals[t] ? teamGoals[t].sum / teamGoals[t].n : 2.9
+
+    return finished.filter(p => {
+      if (!p.actualScore || !p.lambdaHome || !p.lambdaAway) return false
+      const [hg, ag] = p.actualScore.split('-').map(Number)
+      const actualTotal = hg + ag
+      const lam = (p.lambdaHome as number) + (p.lambdaAway as number)
+      const histAvg = (tAvg(p.homeTeam) + tAvg(p.awayTeam)) / 2
+      const blended = 0.3 * lam + 0.7 * histAvg
+      const predA = Math.round(blended)
+      const predB = blended > predA ? predA + 1 : predA - 1
+      return actualTotal === predA || actualTotal === predB
+    }).length
+  })()
 
   return {
     total,
