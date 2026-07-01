@@ -2672,7 +2672,7 @@
     "awayTeam": "刚果DR",
     "group": "淘汰赛-R32",
     "kickoff": "2026-07-01T16:00:00Z",
-    "predictionA": "英格兰 2-0",
+    "predictionA": "英格兰 2-1",
     "predictionB": "英格兰 1-0",
     "predictionC": "平局 1-1",
     "actualScore": null,
@@ -2681,28 +2681,29 @@
     "totalGoalsDirectionCorrect": null,
     "winDrawLoss": "home",
     "lambdaHome": 1.8,
-    "lambdaAway": 0.65,
-    "totalGoalsPrediction": "2球",
-    "probabilityA": 38,
-    "probabilityB": 35,
+    "lambdaAway": 0.85,
+    "totalGoalsPrediction": "3球",
+    "probabilityA": 40,
+    "probabilityB": 33,
     "probabilityC": 27,
     "bettingValues": [
       {
         "stars": 2,
-        "name": "平局",
-        "odds": "+420",
+        "name": "刚果DR进球（亚盘刚果DR+1.5）",
+        "odds": "约-130",
         "hit": null,
-        "note": "M6(刚果DR首届)+RLM英格兰-800→-360，实际概率约25-28% > 隐含19%，有价值"
+        "note": "M6(葡萄牙1-1)+英格兰右后卫Reece James+CB Quansah双缺，刚果DR右路突破概率高"
       }
     ],
-    "mRulesTriggered": ["M6", "M_RLM"],
+    "mRulesTriggered": ["M6", "M_RLM_INJURY"],
     "teamNews": [
-      "🚨 RLM警报：英格兰从-800→-360，开盘→现在隐含胜率89%→78%，-11%史上罕见移动",
-      "⚠️ M6触发：刚果DR首届世界杯，小组赛已1-1逼平葡萄牙（ELO差252）",
-      "📊 ELO差：英格兰2006 vs 刚果DR1722，差284 → 英格兰应是压倒性热门",
-      "❓ RLM可能原因：英格兰关键伤病(贝林厄姆?萨卡?凯恩?)或Sharp大量押注冷门"
+      "🔴 伤病确认（解释赔率移动）：Reece James（右后卫）+ Jarell Quansah（中后卫）双双缺席！",
+      "✅ 英格兰攻击线完整：凯恩+贝林厄姆+萨卡+拉什福德全部可以出战",
+      "⚠️ M6触发：刚果DR首届世界杯，已1-1逼平葡萄牙（ELO差252），防守体系稳固",
+      "📊 赔率移动-10%原因已明：纯防守伤病（非进攻），英格兰进球能力未受影响",
+      "🎯 分析：伤病→防守漏洞→刚果DR右路进攻（萨拉马尼？）可能得分，predA改2-1"
     ],
-    "notes": ""
+    "notes": "赔率移动-10%（-800→-380）完全由伤病驱动：Reece James(RB)+Quansah(CB)缺席，信息价值低于纯Sharp移动。英格兰攻击线完整（凯恩+贝林厄姆+萨卡），仍是压倒性热门，但刚果DR通过右路防守漏洞得分概率显著上升。M6(首届参赛+葡萄牙1-1验证)叠加，predA从2-0升级为2-1。"
   },
   {
     "matchId": 1081,
@@ -2711,43 +2712,45 @@
     "group": "淘汰赛-R32",
     "kickoff": "2026-07-01T20:00:00Z",
     "predictionA": "平局 1-1",
-    "predictionB": "塞内加尔 0-1",
+    "predictionB": "塞内加尔 1-0",
     "predictionC": "比利时 1-0",
     "actualScore": null,
     "directionCorrect": null,
     "exactHit": null,
     "totalGoalsDirectionCorrect": null,
     "winDrawLoss": "draw",
-    "lambdaHome": 1.3,
-    "lambdaAway": 1.15,
+    "lambdaHome": 1.2,
+    "lambdaAway": 1.2,
     "totalGoalsPrediction": "2球",
     "probabilityA": 35,
-    "probabilityB": 33,
-    "probabilityC": 32,
+    "probabilityB": 35,
+    "probabilityC": 30,
     "bettingValues": [
       {
-        "stars": 3,
-        "name": "平局",
-        "odds": "+220",
+        "stars": 4,
+        "name": "塞内加尔获胜",
+        "odds": "+260",
         "hit": null,
-        "note": "M1+M8a双触发：比利时-200→+115（本届最大RLM），ELO差86（M8a 31%底线），实际概率约33%>隐含31.2%"
+        "note": "本届最强Sharp信号：纯资金驱动（德布劳内/卢卡库/杜库全部上阵），Sharp真实概率估算~35%>>市场隐含28%。Oddsshark模型预测塞内加尔2.1-1.1赢球。"
       },
       {
         "stars": 3,
-        "name": "塞内加尔获胜",
-        "odds": "+270",
+        "name": "平局",
+        "odds": "+210",
         "hit": null,
-        "note": "跟随Sharp资金方向（M1）：比利时大幅移动→塞内加尔是Sharp目标，+270价值显著"
+        "note": "M8a(ELO差86，31%底线)+M1双触发，比利时假9号(De Ketelaere)体系乏力。历史验证：荷兰-摩洛哥类似信号→1-1平局。"
       }
     ],
-    "mRulesTriggered": ["M1", "M8a", "M_RLM"],
+    "mRulesTriggered": ["M1", "M8a", "M_RLM_SHARP"],
     "teamNews": [
-      "🚨🚨🚨 本届最大RLM：比利时从-200→+115，隐含胜率67%→47%，移动-20%！Sharp大量押注塞内加尔",
-      "⚠️ 比利时关键伤病存疑：德布劳内/卢卡库/杜库有可能缺席（RLM规模暗示重大消息）",
-      "📊 ELO差：比利时1942 vs 塞内加尔1856，差86 → M8a触发（31%平局底线）",
-      "✅ 塞内加尔马内（约34岁）：定点进攻和反击能力仍在，针对低效比利时威胁大"
+      "🚨🚨🚨 本届最大Pure Sharp RLM：比利时-200→+115（-20%），且德布劳内/卢卡库/杜库全部出战！",
+      "⚡ 关键发现：赔率移动非伤病驱动——Sharp职业资金押注塞内加尔，信号纯度极高",
+      "⚠️ 比利时战术隐患：De Ketelaere打假9号→进攻乏力；卢卡库替补；CB Debast有伤在身",
+      "✅ 塞内加尔战术：Cissé防守组织全球顶级，马内+萨尔+迪亚塔多点威胁，擅长反击",
+      "📊 Oddsshark电脑模型：预测塞内加尔2.1-1.1赢球，Over 2.5总进球@-103",
+      "📊 历史对标：荷兰-摩洛哥（Sharp暗示平局价值+240）→1-1平局✅，比利时信号强度是其2倍"
     ],
-    "notes": ""
+    "notes": "本届最强赔率信号：纯Sharp资金驱动（无伤病解释），比利时-200→+115移动-20%。德布劳内/卢卡库/杜库全健在，意味着Sharp不是因为伤病押注，而是真正认为塞内加尔更强。Oddsshark模型预测塞内加尔赢。M8a(ELO差86)+M1(Pure Sharp)双触发，predB升级为塞内加尔1-0（强调Sharp方向），predA保留平局（M8a历史验证）。比利时假9号体系（De Ketelaere无卢卡库）在强防守面前效率极低。"
   },
   {
     "matchId": 1082,
@@ -2770,14 +2773,15 @@
     "probabilityB": 33,
     "probabilityC": 27,
     "bettingValues": [],
-    "mRulesTriggered": ["M8a", "attackBoost"],
+    "mRulesTriggered": ["M8a", "attackBoost", "M_CLV_CONFIRM"],
     "teamNews": [
-      "✅ 美国attackBoost+0.15：4-1巴拉圭+2-0澳大利亚+2-0厄瓜多尔三次验证，主场输出稳定",
-      "📊 ELO差：美国1853 vs 波黑1762，差91 → M8a触发（<100，31%平局底线）",
-      "✅ 无明显RLM：美国线从-185→-270，市场进一步支持美国",
-      "⚠️ 波黑具备中欧技术流实力，Dzeko等经验老将可能创造机会"
+      "✅ Sharp确认信号：美国线从~-185→-280，方向加强（公众+Sharp同向押注美国）",
+      "✅ 美国attackBoost+0.15三次验证：4-1巴拉圭/2-0澳大利亚/2-0厄瓜多尔，主场输出稳定",
+      "📊 ELO差：美国1853 vs 波黑1762，差91 → M8a触发（31%平局底线）",
+      "✅ 与英格兰/比利时不同：美国赔率向好移动=市场和Sharp均支持美国，无逆向信号",
+      "⚠️ 波黑Džeko+Pjanić经验老将可能制造机会，但1762 ELO差距较大"
     ],
-    "notes": ""
+    "notes": "美国赔率正向移动（~-185→-280），是本届少见的Public+Sharp同向信号，attackBoost+0.15再次获得市场验证。与比利时(-20%)和英格兰(-10%)的负向移动形成鲜明对比：今日三场中，美国是唯一赔率向好的队伍，胜算最确定。M8a(ELO差91)提供平局保险但attackBoost应能压制均势。"
   },
   {
     "matchId": 1083,

@@ -1,5 +1,17 @@
 [
   {
+    "id": 72,
+    "type": "analysis",
+    "team": "实时赔率深度",
+    "timestamp": "2026-07-01T11:30:00+08:00",
+    "source": "OddsShark + FOX Sports + Sports Mole 多源核实",
+    "title": "⚡ 实时赔率深度解析：三场信号性质完全不同",
+    "content": "【英格兰-10%移动=伤病驱动】Reece James(右后卫)+Quansah(中后卫)双缺席已确认！攻击线凯恩/贝林厄姆/萨卡全健在→英格兰仍赢但防守漏洞→刚果DR右路得分，predA改英格兰2-1。【比利时-20%移动=纯Sharp资金】德布劳内/卢卡库/杜库全部出战！零伤病→赔率移动完全由职业Sharp驱动→本届最高纯度信号。Oddsshark电脑模型：塞内加尔2.1-1.1赢球。历史对标：荷兰-摩洛哥Sharp信号→1-1平局，比利时信号强度2倍。【美国-280正向移动=Sharp确认】美国从-185→-280，Public+Sharp同向→最确定胜局。今日三场赔率性质：英格兰（伤病补偿）< 美国（市场确认）< 比利时（最强Sharp信号）。",
+    "impactLevel": "high",
+    "impactNote": "博彩价值排序：①塞内加尔+260（4星，Pure Sharp，~35%真实概率vs28%隐含）②平局Belgium+210（3星，M8a+M1）③英格兰亚盘刚果DR+1.5（2星，防守漏洞）",
+    "relatedMatches": [1080, 1081, 1082]
+  },
+  {
     "id": 71,
     "type": "analysis",
     "team": "赔率分析",
