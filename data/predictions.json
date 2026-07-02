@@ -2675,10 +2675,10 @@
     "predictionA": "英格兰 2-1",
     "predictionB": "英格兰 1-0",
     "predictionC": "平局 1-1",
-    "actualScore": null,
-    "directionCorrect": null,
-    "exactHit": null,
-    "totalGoalsDirectionCorrect": null,
+    "actualScore": "英格兰 2-1",
+    "directionCorrect": true,
+    "exactHit": "predictionA",
+    "totalGoalsDirectionCorrect": true,
     "winDrawLoss": "home",
     "lambdaHome": 1.8,
     "lambdaAway": 0.85,
@@ -2691,11 +2691,14 @@
         "stars": 2,
         "name": "刚果DR进球（亚盘刚果DR+1.5）",
         "odds": "约-130",
-        "hit": null,
+        "hit": true,
         "note": "M6(葡萄牙1-1)+英格兰右后卫Reece James+CB Quansah双缺，刚果DR右路突破概率高"
       }
     ],
-    "mRulesTriggered": ["M6", "M_RLM_INJURY"],
+    "mRulesTriggered": [
+      "M6",
+      "M_RLM_INJURY"
+    ],
     "teamNews": [
       "🔴 伤病确认（解释赔率移动）：Reece James（右后卫）+ Jarell Quansah（中后卫）双双缺席！",
       "✅ 英格兰攻击线完整：凯恩+贝林厄姆+萨卡+拉什福德全部可以出战",
@@ -2714,10 +2717,10 @@
     "predictionA": "平局 1-1",
     "predictionB": "塞内加尔 1-0",
     "predictionC": "比利时 1-0",
-    "actualScore": null,
-    "directionCorrect": null,
+    "actualScore": "比利时 3-2（加时）",
+    "directionCorrect": false,
     "exactHit": null,
-    "totalGoalsDirectionCorrect": null,
+    "totalGoalsDirectionCorrect": false,
     "winDrawLoss": "draw",
     "lambdaHome": 1.2,
     "lambdaAway": 1.2,
@@ -2730,18 +2733,22 @@
         "stars": 4,
         "name": "塞内加尔获胜",
         "odds": "+260",
-        "hit": null,
+        "hit": false,
         "note": "本届最强Sharp信号：纯资金驱动（德布劳内/卢卡库/杜库全部上阵），Sharp真实概率估算~35%>>市场隐含28%。Oddsshark模型预测塞内加尔2.1-1.1赢球。"
       },
       {
         "stars": 3,
         "name": "平局",
         "odds": "+210",
-        "hit": null,
+        "hit": false,
         "note": "M8a(ELO差86，31%底线)+M1双触发，比利时假9号(De Ketelaere)体系乏力。历史验证：荷兰-摩洛哥类似信号→1-1平局。"
       }
     ],
-    "mRulesTriggered": ["M1", "M8a", "M_RLM_SHARP"],
+    "mRulesTriggered": [
+      "M1",
+      "M8a",
+      "M_RLM_SHARP"
+    ],
     "teamNews": [
       "🚨🚨🚨 本届最大Pure Sharp RLM：比利时-200→+115（-20%），且德布劳内/卢卡库/杜库全部出战！",
       "⚡ 关键发现：赔率移动非伤病驱动——Sharp职业资金押注塞内加尔，信号纯度极高",
@@ -2761,10 +2768,10 @@
     "predictionA": "美国 2-0",
     "predictionB": "美国 2-1",
     "predictionC": "平局 1-1",
-    "actualScore": null,
-    "directionCorrect": null,
-    "exactHit": null,
-    "totalGoalsDirectionCorrect": null,
+    "actualScore": "美国 2-0",
+    "directionCorrect": true,
+    "exactHit": "predictionA",
+    "totalGoalsDirectionCorrect": true,
     "winDrawLoss": "home",
     "lambdaHome": 1.9,
     "lambdaAway": 0.9,
@@ -2773,7 +2780,11 @@
     "probabilityB": 33,
     "probabilityC": 27,
     "bettingValues": [],
-    "mRulesTriggered": ["M8a", "attackBoost", "M_CLV_CONFIRM"],
+    "mRulesTriggered": [
+      "M8a",
+      "attackBoost",
+      "M_CLV_CONFIRM"
+    ],
     "teamNews": [
       "✅ Sharp确认信号：美国线从~-185→-280，方向加强（公众+Sharp同向押注美国）",
       "✅ 美国attackBoost+0.15三次验证：4-1巴拉圭/2-0澳大利亚/2-0厄瓜多尔，主场输出稳定",
@@ -2842,7 +2853,9 @@
         "note": "M8a最强触发：ELO差仅41（<50），平局底线33%，市场隐含27.8%，低估约5%"
       }
     ],
-    "mRulesTriggered": ["M8a"],
+    "mRulesTriggered": [
+      "M8a"
+    ],
     "teamNews": [
       "📊 ELO差：葡萄牙1974 vs 克罗地亚1933，差仅41 → M8a最强触发（33%平局底线）",
       "✅ 克罗地亚莫德里奇（40岁）末轮绝境2-1加纳：心理韧性极强，淘汰赛经验丰富",
@@ -2910,7 +2923,9 @@
         "note": "M8a最强触发：ELO差仅2（1796 vs 1798），基本相等！平局底线33%，市场+240隐含29.4%，低估约4%"
       }
     ],
-    "mRulesTriggered": ["M8a"],
+    "mRulesTriggered": [
+      "M8a"
+    ],
     "teamNews": [
       "📊 ELO差：澳大利亚1796 vs 埃及1798，差仅2 → M8a最强触发，完全均势！",
       "✅ 澳大利亚attackBoost+0.12：Irankunda新生代攻击力超ELO预期",
@@ -2933,14 +2948,17 @@
     "exactHit": null,
     "totalGoalsDirectionCorrect": null,
     "winDrawLoss": "home",
-    "lambdaHome": 3.0,
+    "lambdaHome": 3,
     "lambdaAway": 0.3,
     "totalGoalsPrediction": "3球",
     "probabilityA": 45,
     "probabilityB": 15,
     "probabilityC": 40,
     "bettingValues": [],
-    "mRulesTriggered": ["M6", "双前锋bonus"],
+    "mRulesTriggered": [
+      "M6",
+      "双前锋bonus"
+    ],
     "teamNews": [
       "📊 ELO差：阿根廷2156 vs 佛得角1702，差454 → 阿根廷压倒性优势",
       "🔥 梅西+劳塔罗：双前锋bonus全触发，阿根廷3-0约旦验证（梅西帽子戏法）",
@@ -2965,13 +2983,15 @@
     "totalGoalsDirectionCorrect": null,
     "winDrawLoss": "home",
     "lambdaHome": 1.6,
-    "lambdaAway": 1.0,
+    "lambdaAway": 1,
     "totalGoalsPrediction": "2球",
     "probabilityA": 40,
     "probabilityB": 30,
     "probabilityC": 30,
     "bettingValues": [],
-    "mRulesTriggered": ["M8a"],
+    "mRulesTriggered": [
+      "M8a"
+    ],
     "teamNews": [
       "📊 ELO差：哥伦比亚1889 vs 加纳1755，差134 → M8a触发（<150，29%平局底线）",
       "⚠️ 哥伦比亚0-0葡萄牙（ROTATION_PENALTY）：末轮轮换队，淘汰赛全力以赴",
